@@ -1,0 +1,23 @@
+instalaciones necesarias
+### npm install @react-navigation/native
+### npm install react-native-screens react-native-safe-area-context
+
+ $$$ Add the following code to the body of MainActivity class: $$$
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(null);
+}
+
+$$$ this same file 
+
+import android.os.Bundle;
+
+
+## luego 
+### npm install @react-navigation/native-stack
+
+
+
+## iconos 
+### npm i @fortawesome/react-native-fontawesome

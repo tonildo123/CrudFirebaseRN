@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "803902781234",
+    "project_id": "react-crud-2ebd7",
+    "storage_bucket": "react-crud-2ebd7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803902781234:android:97406e9114923ab809092b",
+        "android_client_info": {
+          "package_name": "com.crudfirebasern"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "803902781234-9k2hnvkcrpbgbckfo1076dv6ev9vfg9a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crudfirebasern",
+            "certificate_hash": "f5acbc7ec7cae407fd63a11102f02b0b53e459f5"
+          }
+        },
+        {
+          "client_id": "803902781234-69l3kfpb9fasghd69uo0rfti8no9q70q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDprG2DpEUTfdeSjhal4c3jobFUbFMQfkI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "803902781234-69l3kfpb9fasghd69uo0rfti8no9q70q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
