@@ -50,7 +50,7 @@ const CreateCreen = () => {
     };
 
     launchImageLibrary(options, response =>{
-      console.log('response = '+response);
+      console.log('response = ' + response);
 
         if(response.errorCode){
           console.log('response error= '+response.errorCode);
@@ -138,13 +138,13 @@ const CreateCreen = () => {
         </TouchableOpacity>
       </View>
     </View>  
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems:'center'
+    alignItems:'center',
     
   },
   image: {

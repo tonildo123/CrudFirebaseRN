@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable semi */
 /* eslint-disable no-trailing-spaces */
@@ -6,21 +7,46 @@ import React, {useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
 
 import {
-    View, Text, FlatList, Image, TouchableOpacity,StyleSheet,
+    View, Text, FlatList, Image, TouchableOpacity,StyleSheet,Alert
  } from 'react-native';
+import { DocumentSnapshot } from 'firebase/firestore';
+// import { QuerySnapshot } from 'firebase/firestore';
 
 const HomeScreen = ({navigation}) => {
 
   const [data, setData] =  useState();
   
 
+  // const getProdcuts = async () =>{
+  //   // const data = await getDocs(productColection);
+  //   const usersCollection = await firestore().collection('productos').get();
+  //   setData(usersCollection.docs);
+  //   console.log('data');
+  //   console.log(usersCollection.docs[0].data().precio);
+  // }; tambien sirve pero no trae la key id
+
   const getProdcuts = async () =>{
-    // const data = await getDocs(productColection);
-    const usersCollection = await firestore().collection('productos').get();
-    setData(usersCollection.docs);
-    console.log('data');
-    console.log(usersCollection.docs[0].data().precio);
-  };
+    const suscriber = firestore().collection('productos').
+    onSnapshot(
+      querySnapshot => {
+
+        const productos = [];
+        querySnapshot.forEach(
+          documentSnapshot => {
+            productos.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id 
+            })
+              
+
+          }
+        )
+        setData(productos);
+      }
+    )
+
+    return () => suscriber()
+  }
 
   
   useEffect(() => {
@@ -31,21 +57,54 @@ const HomeScreen = ({navigation}) => {
     navigation.navigate('Create');
   }
 
+  const handleEdit = (item) =>{
+    navigation.navigate('Edit', {item})
+  }
+
+  
+  const  handleDelete = (item)=>{
+
+    Alert.alert(
+      `Producto ${item.descripcion}`,
+      'Seguro que desea eliminarlo', 
+      [
+        { text:"Cancelar", 
+          style:'cancel'
+        },
+        {
+          text:"Editar", 
+          onPress: ()=> handleEdit(item)
+          
+        },
+        { text:'Si, Eliminar',
+          onPress: ()=>{ firestore().collection('productos').doc(item.key)
+          .delete().then(()=>{
+              Alert.alert(
+                `${item.descripcion} Eliminado!`)
+            }) 
+        },
+          style:'destructive'
+        },
+      ]
+    );
+  } 
+
   const handleItem = ({item}) =>{
 
     return(
-      <View style={{flexDirection:'column', margin:10}}>
-        <Text style={styles.txtDescripcion}>{item.data().descripcion}</Text>
-        <Text style={styles.textPrecio}>$ {item.data().precio}</Text>
-        <Image
-          style={styles.image}
-          source={{
-            uri: item.data().fotobase64
-          }}
-        />
-        
-
-      </View>
+      <TouchableOpacity
+          onPress={()=>handleDelete(item)}
+          style={{flexDirection:'column', margin:10}}
+        >
+        <Text style={styles.txtDescripcion}>{item.descripcion}</Text>
+          <Text style={styles.textPrecio}>$ {item.precio}</Text>
+          <Image
+            style={styles.image}
+            source={{
+              uri: item.fotobase64
+            }}
+          />
+      </TouchableOpacity>       
     );
 
   }
