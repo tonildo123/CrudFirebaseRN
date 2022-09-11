@@ -4,11 +4,15 @@
 
 import React, {useState} from 'react';
 import {
-    View, Text, StyleSheet, Image, SafeAreaView, TextInput, TouchableOpacity,Button
+    View, Text, StyleSheet, Image, SafeAreaView, TextInput, TouchableOpacity,Button, Dimensions
  } from 'react-native';
  import firestore from '@react-native-firebase/firestore';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
+var { height } = Dimensions.get('window');
+ 
+var box_count = 15;
+var box_height = height / box_count;
 
 const CreateCreen = () => {
 
@@ -97,14 +101,18 @@ const CreateCreen = () => {
 
   return (
     <View style={styles.container}>
-      <Button
-        title='Seleccionar imagen'
-        onPress={handleImagen}
-      />
+      <View style={[styles.box, styles.box1]}>
+        <Button
+          title='Seleccionar una imagen'
+          onPress={handleImagen}
+        />
+      </View>
+      <View style={[styles.box, styles.box1]}>
        <Button
         title='Tomar una fotografia'
         onPress={handleFoto}
       />
+      </View>
       <Image 
         style={{
           alignSelf:'center',
@@ -144,8 +152,17 @@ const CreateCreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems:'center',
+    flexDirection: 'column',
     
+  },
+  box: {
+    height: box_height,
+  },
+  box1: {
+      backgroundColor: '#2196F3',
+      borderWidth: 4,
+      borderColor: "#20232a",
+      borderRadius: 6,
   },
   image: {
     width: 100,
@@ -165,10 +182,13 @@ const styles = StyleSheet.create({
       margin:5,
     },
     button: {
-      alignItems: "center",
-      backgroundColor: "#DDDDDD",    
-      padding:20,
-      margin:20,
+      backgroundColor: '#2196F3',
+      borderWidth: 4,
+      borderColor: "#20232a",
+      borderRadius: 6,
+      fontSize:50,
+      padding:10,
+      alignSelf:'center',
     },
 });
 

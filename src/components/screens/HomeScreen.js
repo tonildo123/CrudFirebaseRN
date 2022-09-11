@@ -94,7 +94,7 @@ const HomeScreen = ({navigation}) => {
     return(
       <TouchableOpacity
           onPress={()=>handleDelete(item)}
-          style={{flexDirection:'column', margin:10}}
+          style={{flexDirection:'column', margin:10,alignItems: "center",}}
         >
         <Text style={styles.txtDescripcion}>{item.descripcion}</Text>
           <Text style={styles.textPrecio}>$ {item.precio}</Text>
@@ -115,7 +115,7 @@ const HomeScreen = ({navigation}) => {
             style={styles.button}
             onPress={handleProducto}
             >
-            <Text>Subir un producto nuevo</Text>
+            <Text style={styles.textButton}>Subir un producto nuevo</Text>
           </TouchableOpacity>
           <Text style={styles.title}>PRODUCTOS</Text>
           <FlatList 
@@ -132,21 +132,28 @@ const HomeScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems:'center'
-    
+    flexDirection: 'column',
+    backgroundColor:'grey'
   },
   title:{
-    backgroundColor:'#337AFF',
-    color:'white',
-    paddingHorizontal:50,
-    paddingVertical:10,
+    marginTop: 1,
+    paddingVertical: 8,
+    borderWidth: 4,
+    borderColor: "#20232a",
+    borderRadius: 6,
+    backgroundColor: "#283747",
+    color: "white",
+    textAlign: "center",
+    fontSize: 30,
+    fontWeight: "bold"
   },
   image: {
-    width: '100%',
-    height: 150,
+    width: 200,
+    height: 250,
     resizeMode : 'contain', // es como el objetfit de css
     padding:100,
     marginTop:20,
+    borderRadius: 8,
     
   },
   input: {
@@ -157,18 +164,31 @@ const styles = StyleSheet.create({
       // margin:20,
     },
     button: {
+      marginTop: 1,
+      paddingVertical: 8,
+      borderWidth: 4,
+      borderColor: "#20232a",
+      borderRadius: 6,
+      backgroundColor: "#61dafb",
+      color: "#20232a",
+      textAlign: "center",
+      fontSize: 30,
+      fontWeight: "bold",
       alignItems: "center",
-      backgroundColor: "#DDDDDD",    
-      padding:20,
-      margin:20,
+    },
+    textButton:{
+      fontSize:25,      
     },
     textPrecio:{
       backgroundColor:'grey',
       color:'white',
+      fontSize:25,
+      
     },
     txtDescripcion:{
-      backgroundColor:'black',
+      // backgroundColor:'black',
       color:'white',
+      fontSize:25,
     },
 });
 

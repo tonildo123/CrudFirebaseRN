@@ -15,7 +15,7 @@ const LoginScreens = ({navigation}) => {
   
 
   const [text, onChangeText] = useState("Usuario/eMail/Telefono");
-  const [number, onChangeNumber] = useState(null);
+  const [number, onChangeNumber] = useState('*********');
 
   
 
@@ -27,7 +27,10 @@ const LoginScreens = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Image source={logoImg} style={styles.image} />
+      <View style={styles.logo}>
+        <Image source={logoImg} style={styles.image} />
+      </View>
+      
       <View>
       <SafeAreaView>
       <TextInput
@@ -49,7 +52,7 @@ const LoginScreens = ({navigation}) => {
          style={styles.button}
          onPress={handleLogin}
         >
-          <Text>Iniciar Sesion</Text>
+          <Text style={styles.textButton}>Iniciar Sesion</Text>
         </TouchableOpacity>
       </View>
       <View>
@@ -71,30 +74,47 @@ const LoginScreens = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems:'center'
+    flexDirection: 'column',
     
   },
+  logo:{
+    flex: 0.50,
+    // justifyContent:'center',
+    alignItems: "center",
+
+  },
   image: {
-    width: 80,
-    height: 120,
+    width: 200,
+    height: 220,
     resizeMode : 'contain', // es como el objetfit de css
     padding:50,
     marginTop:20,
     
+    
   },
   input: {
-      height: 40,
-      margin: 12,
-      borderWidth: 1,
+      backgroundColor: "white",
+      borderColor: "gray",
+      width: "100%",
+      borderWidth: 4,
+      borderRadius: 10,
       padding: 10,
-      // margin:20,
+      color:'grey',
     },
     button: {
       alignItems: "center",
-      backgroundColor: "#DDDDDD",    
+      backgroundColor: "#85929E",    
+      // borderWidth: 4,
+      borderRadius: 10,
       padding:20,
-      margin:20,
+      margin:10,
+      // fontSize:50,
+      
     },
+    textButton:{
+      fontSize:20,
+      color:'white',
+    }
 });
 
 
