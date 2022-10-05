@@ -1,14 +1,19 @@
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable prettier/prettier */
+import 'react-native-gesture-handler';
 import React from 'react';
 import Navigate from './src/navigation/Navigate';
-import 'react-native-gesture-handler';
+import { Provider } from 'react-redux';
+import store from './src/store/ReduxFile';
+
 
 const App = () => {  
 
   return (    
-    <Navigate />      
+    <Provider
+      store={store}
+    >
+        <Navigate />      
+    </Provider>
+    
   );
 };
 

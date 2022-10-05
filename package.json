@@ -19,6 +19,7 @@
     "@react-native-firebase/firestore": "^15.4.0",
     "@react-navigation/native": "^6.0.12",
     "@react-navigation/native-stack": "^6.8.0",
+    "@reduxjs/toolkit": "^1.8.5",
     "firebase": "^9.10.0",
     "react": "18.1.0",
     "react-native": "0.70.0",
@@ -32,6 +33,7 @@
     "react-native-swiper": "^1.6.0",
     "react-native-text-input-interactive": "^0.1.4",
     "react-native-vector-icons": "^9.2.0",
+    "react-redux": "^8.0.4",
     "react-social-icons": "^5.14.0",
     "redux": "^4.2.0"
   },

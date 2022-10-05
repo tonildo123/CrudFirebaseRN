@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import {
   View, Text, Image, StyleSheet, SafeAreaView, TextInput, TouchableOpacity
 } from 'react-native';
@@ -6,20 +6,61 @@ import {
 import logoImg from '../../assets/vectoricon.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import auth from '@react-native-firebase/auth';
+
+import {useSelector, useDispatch} from 'react-redux'
+import AllActions from '../../store/actions/AllActions';
+
 
 
 const LoginScreens = ({navigation}) => {
   
 
-  const [text, onChangeText] = useState("Usuario/eMail/Telefono");
-  const [number, onChangeNumber] = useState('*********');
+  const [text, onChangeText] = useState("");
+  const [number, onChangeNumber] = useState('');
+
+  const currentUser = useSelector(state => state.CurrentUser)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+
+    // dispatch(AllActions.UserAction.setUser(user))
+    dispatch(AllActions.UserActions.loginUSer(text))
+    console.log('user actual ', currentUser);
+
+  }, [])
 
   
 
   const handleLogin = () =>{
 
-    navigation.navigate('Home');  
+    console.log('user', text)
+    console.log('pass', number)
 
+    auth()
+    .signInWithEmailAndPassword(text, number)
+    .then(() => {
+      console.log('Log in ');
+      changeScreen();
+    })
+    .catch(error => {
+      if (error.code === 'auth/email-already-in-use') {
+        console.log('That email address is already in use!');
+      }
+  
+      if (error.code === 'auth/invalid-email') {
+        console.log('That email address is invalid!');
+      }
+  
+      console.error(error);
+    });
+
+
+
+  }
+
+  const changeScreen  =()=>{
+    navigation.navigate('Home');  
   }
 
   const handleRegister = () =>{
@@ -40,13 +81,14 @@ const LoginScreens = ({navigation}) => {
       <TextInput
         style={styles.input}
         onChangeText={onChangeText}
+        placeholder="Usuario/eMail/Telefono"
         value={text}
       />
       <TextInput
         style={styles.input}
         onChangeText={onChangeNumber}
         value={number}
-        placeholder="ContraseÃ±a"
+        placeholder="*********"
         keyboardType="numeric"
       />
     </SafeAreaView>
