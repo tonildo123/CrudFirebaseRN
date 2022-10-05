@@ -73,7 +73,7 @@ const CreateCreen = () => {
   const handleFoto = () =>{
 
     const options = {
-      title:'Seleccione una imagen',
+      title:'Tomar una foto',
       storageOption:{
         skipBackup:true,
         path:'images',

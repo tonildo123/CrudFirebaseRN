@@ -1,14 +1,11 @@
-/* eslint-disable quotes */
-/* eslint-disable eol-last */
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import {
   View, Text, Image, StyleSheet, SafeAreaView, TextInput, TouchableOpacity
 } from 'react-native';
 
-import logoImg from '../../Assets/vectoricon.png';
-import Feather from 'react-native-vector-icons/FontAwesome';
+import logoImg from '../../assets/vectoricon.png';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 
 const LoginScreens = ({navigation}) => {
@@ -24,6 +21,13 @@ const LoginScreens = ({navigation}) => {
     navigation.navigate('Home');  
 
   }
+
+  const handleRegister = () =>{
+
+    navigation.navigate('Register');  
+
+  }
+
 
   return (
     <View style={styles.container}>
@@ -42,34 +46,58 @@ const LoginScreens = ({navigation}) => {
         style={styles.input}
         onChangeText={onChangeNumber}
         value={number}
-        placeholder="Contraseña"
+        placeholder="ContraseÃ±a"
         keyboardType="numeric"
       />
     </SafeAreaView>
       </View>
       <View>
         <TouchableOpacity
-         style={styles.button}
+         style={styles.buttonLogin}
          onPress={handleLogin}
         >
-          <Text style={styles.textButton}>Iniciar Sesion</Text>
+          <Text style={styles.textButton}>INICIAR SESION</Text>
         </TouchableOpacity>
       </View>
       <View>
-      <Feather
-        name="facebook"
-        backgroundColor="#3b5998"
-        // onPress={}
-      >
-        Login with Facebook
-      </Feather>
+        <TouchableOpacity
+         style={styles.button}
+         onPress={handleRegister}
+        >
+          <Text style={styles.textButton}>REGISTRARME</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={{flexDirection:'row',justifyContent: "center" }}>
+        <TouchableOpacity style={{paddingHorizontal:15}}>
+          <Icon name="facebook" size={40} color="#3498DB"  />
+        </TouchableOpacity>
+          
+        <TouchableOpacity style={{paddingHorizontal:15}}>
+          <View style={{alignItems:'center',}}>
+            <Icon name="camera-retro" size={40} color="#E74C3C" />
+            <Text>FACE ID</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{paddingHorizontal:15}}>
+          <View style={{alignItems:'center',}}>
+            <Icon name="expeditedssl" size={40} color="#3498DB" />
+            <Text>PIN</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{paddingHorizontal:15}}>
+         <Icon name="google" size={40} color="#FA8072" />
+        </TouchableOpacity>
+         
+
       </View>
     </View>
+
     );
     
 
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -111,11 +139,20 @@ const styles = StyleSheet.create({
       // fontSize:50,
       
     },
+    buttonLogin: {
+      alignItems: "center",
+      backgroundColor: "black",    
+      // borderWidth: 4,
+      borderRadius: 10,
+      padding:20,
+      margin:10,
+      // fontSize:50,
+      
+    },
     textButton:{
       fontSize:20,
       color:'white',
     }
 });
-
 
 export default LoginScreens;

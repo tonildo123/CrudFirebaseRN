@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import * as firebase from "firebase";
 import firestore from 'firebase/firestore';
 
@@ -16,4 +15,6 @@ firebase.initializeApp(firebaseConfig);
 firebase.firestore();
 
 export default firebase;
+ 
+
  

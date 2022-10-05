@@ -8,8 +8,9 @@ import LoginScreens from '../components/screens/LoginScreens';
 import HomeScreen from '../components/screens/HomeScreen';
 import EditScreen from '../components/screens/EditScreen';
 import CreateCreen from '../components/screens/CreateCreen';
-
-
+import RegiisterScreen from '../components/screens/RegiisterScreen';
+import RegisterData from '../components/screens/RegisterData';
+import RegisterScreenSelfie from '../components/screens/RegisterScreenSelfie';
 
 
 const Stack = createNativeStackNavigator();
@@ -31,6 +32,9 @@ const Navigate = () => {
         <Stack.Screen name="Home" component={ HomeScreen } />
         <Stack.Screen name="Edit" component={EditScreen} />
         <Stack.Screen name="Create" component={CreateCreen} />
+        <Stack.Screen name="Register" component={RegiisterScreen} />
+        <Stack.Screen name="Registerdos" component={RegisterData} />
+        <Stack.Screen name="Registertres" component={RegisterScreenSelfie} />
       </Stack.Navigator>
     </NavigationContainer>
 

@@ -1,11 +1,15 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
 import React, {useState, useEffect} from 'react';
 import {
-    View, Text, StyleSheet, Image, SafeAreaView, TextInput, TouchableOpacity,Button
+  Dimensions, View, Text, StyleSheet, Image, SafeAreaView, TextInput, TouchableOpacity,Button
  } from 'react-native';
  import firestore from '@react-native-firebase/firestore';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
+var { height } = Dimensions.get('window');
+ 
+var box_count = 15;
+var box_height = height / box_count;
+
 
 const EditScreen = ({route, navigation}) => {
 
@@ -102,19 +106,24 @@ const EditScreen = ({route, navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Button
-        title='Seleccionar imagen'
-        onPress={handleImagen}
-      />
+      <View style={[styles.box, styles.box1]}>
+        <Button
+          title='Seleccionar una imagen'
+          onPress={handleImagen}
+        />
+      </View>
+      <View style={[styles.box, styles.box1]}>
        <Button
         title='Tomar una fotografia'
         onPress={handleFoto}
       />
+      </View>
       <Image 
         style={{
           alignSelf:'center',
-          height:200,
+          height:300,
           width:200,
+          resizeMode : 'contain',
         }}
         source = {{uri:fotobase64}}
         />
@@ -122,13 +131,14 @@ const EditScreen = ({route, navigation}) => {
       <SafeAreaView>
       <TextInput
         style={styles.input}
+        placeholder="Descripcion"
         onChangeText={text =>setDescripcion(text)}
         value={descripcion}
       />
       <TextInput
         style={styles.input}
         onChangeText={number =>setPrecio(number)}
-        value= {precio}
+        value={precio}
         placeholder="$ PRECIO"
         keyboardType="numeric"
       />
@@ -143,6 +153,7 @@ const EditScreen = ({route, navigation}) => {
         </TouchableOpacity>
       </View>
     </View>  
+  
   );  
   
 }
@@ -153,15 +164,24 @@ export default EditScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems:'center',
+    flexDirection: 'column',
     
+  },
+  box: {
+    height: box_height,
+  },
+  box1: {
+      backgroundColor: '#2196F3',
+      borderWidth: 4,
+      borderColor: "#20232a",
+      borderRadius: 6,
   },
   image: {
     width: 100,
     height: 150,
     resizeMode : 'contain', // es como el objetfit de css
-    padding:50,
-    marginTop:20,
+    padding:50,    
+    marginTop:100,
     
   },
   input: {
@@ -174,9 +194,12 @@ const styles = StyleSheet.create({
       margin:5,
     },
     button: {
-      alignItems: "center",
-      backgroundColor: "#DDDDDD",    
-      padding:20,
-      margin:20,
+      backgroundColor: '#2196F3',
+      borderWidth: 4,
+      borderColor: "#20232a",
+      borderRadius: 6,
+      fontSize:50,
+      padding:10,
+      alignSelf:'center',
     },
 });
