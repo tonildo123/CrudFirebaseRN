@@ -1,11 +1,14 @@
 import React, { useState, useEffect} from 'react';
 import {
+  Platform, 
+  Dimensions,
   View, Text, Image, StyleSheet, SafeAreaView, TextInput, TouchableOpacity
 } from 'react-native';
 
 import logoImg from '../../assets/vectoricon.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import auth from '@react-native-firebase/auth';
 
 import {useSelector, useDispatch} from 'react-redux';
@@ -20,14 +23,17 @@ const LoginScreens = ({navigation}) => {
 
   const [text, onChangeText] = useState("");
   const [number, onChangeNumber] = useState('');
+  const [validateUser, setValidateUser] = useState(false)
+  const [validatePassword, setValidatePassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loadingData, setLoadingData] = useState(false);
 
   const currentUser = useSelector(state => state.CurrentUser)
   const dispatch = useDispatch()
 
   useEffect(() => {
-
-    // dispatch(AllActions.UserAction.setUser(user))
-    dispatch(AllActions.UserActions.loginUSer(text))
+    
+    // dispatch(AllActions.UserActions.loginUSer(text))
     console.log('user actual ', currentUser);
 
   }, [])
@@ -63,35 +69,7 @@ const LoginScreens = ({navigation}) => {
 
   }
 
-  const changeScreen  =(idUSer)=>{
-    navigation.navigate('Home');  
-
-    ///////
-    //  usar redux y pasar a home
-                                                                                
-     const usuario = 
-     {
-        
-      user:'',
-      idUsuario:idUSer,
-      tipo:'admin',
-      nombre:'',
-      apellido:'',
-      dni:'',
-      email:text,
-      password:number,
-      foto:'',
-      
-     };
-
-
-// dispatch(AllActions.UserAction.setUser(usuario))
-dispatch(AllActions.UserActions.loginUSer(usuario))
-// navigation.navigate('Home');
-console.log('vamos al home');
-
-    /////////
-  }
+  
 
 
   const getUser = async (idUSer) =>{
@@ -134,7 +112,7 @@ console.log('vamos al home');
     };
 
     console.log('user final', JSON.stringify(usuario, null, 4) ); 
-
+    dispatch(AllActions.UserActions.loginUSer(usuario))
 
 
   }
@@ -155,21 +133,69 @@ console.log('vamos al home');
       </View>
       
       <View>
-      <SafeAreaView>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        placeholder="Usuario/eMail/Telefono"
-        value={text}
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeNumber}
-        value={number}
-        placeholder="*********"
-        keyboardType="numeric"
-      />
-    </SafeAreaView>
+        <SafeAreaView>
+        <View style={{
+          flexDirection: 'row',
+          marginTop: 10,
+          borderBottomWidth: 1,
+          borderBottomColor: 'black',
+          paddingBottom: 5, 
+          paddingHorizontal:10}}>
+            <FontAwesome
+                name="user-o"
+                color='black'
+                size={20}
+            />
+          <TextInput
+          style={styles.input}
+          onChangeText={onChangeText}
+          placeholder="Usuario/eMail/Telefono"
+          value={text}
+          />
+        </View> 
+        <View style={{
+          flexDirection: 'row',
+          marginTop: 10,
+          borderBottomWidth: 1,
+          borderBottomColor: 'black',
+          paddingBottom: 5, 
+          paddingHorizontal:10}}
+        >
+           <Feather
+              name="lock"
+              color='black'
+              size={20}
+            />
+            <TextInput
+              style={styles.input}
+              onChangeText={onChangeNumber}
+              value={number}
+              secureTextEntry={showPassword ? false : true}
+              placeholder="*********"
+              keyboardType="numeric"
+            />
+            <TouchableOpacity
+              onPress={()=>{setShowPassword(!showPassword)}}
+            >
+            
+              {showPassword 
+                  ?<Feather
+                  name="eye"
+                  color="black"
+                  size={20}
+                  />
+                  :<Feather
+                  name="eye-off"
+                  color="gray"
+                  size={20}
+                  />  
+                            
+              }
+              
+          </TouchableOpacity>
+        
+        </View>     
+        </SafeAreaView>
       </View>
       <View>
         <TouchableOpacity
@@ -232,8 +258,8 @@ const styles = StyleSheet.create({
 
   },
   image: {
-    width: 200,
-    height: 220,
+    width: 50,
+    height: 50,
     resizeMode : 'contain', // es como el objetfit de css
     padding:50,
     marginTop:20,
@@ -241,13 +267,17 @@ const styles = StyleSheet.create({
     
   },
   input: {
-      backgroundColor: "white",
-      borderColor: "gray",
-      width: "100%",
-      borderWidth: 4,
-      borderRadius: 10,
-      padding: 10,
-      color:'grey',
+      // backgroundColor: "white",
+      // borderColor: "gray",
+      // width: "100%",
+      // borderWidth: 4,
+      // borderRadius: 10,
+      // padding: 10,
+      // color:'grey',
+      flex: 1,
+        marginTop: Platform.OS === 'ios' ? 0 : -12,
+        paddingLeft: 10,
+        color: '#05375a',
     },
     button: {
       alignItems: "center",

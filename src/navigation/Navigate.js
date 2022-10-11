@@ -22,13 +22,15 @@ const Navigate = () => {
 
   const currentUser = useSelector(state => state.CurrentUser)
 
+  console.log('navigate console : ', currentUser)
+
 
 
   return (
     <NavigationContainer>
 
       {
-        (currentUser.loggedIn=='false')
+        (currentUser.loggedIn)
         ? <NavigationDrawer/>
         : <Stack.Navigator
         screenOptions={{
