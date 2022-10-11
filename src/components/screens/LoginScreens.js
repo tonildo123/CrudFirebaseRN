@@ -8,9 +8,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import auth from '@react-native-firebase/auth';
 
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux';
 import AllActions from '../../store/actions/AllActions';
 
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 
 
 const LoginScreens = ({navigation}) => {
@@ -39,9 +41,11 @@ const LoginScreens = ({navigation}) => {
 
     auth()
     .signInWithEmailAndPassword(text, number)
-    .then(() => {
-      console.log('Log in ');
-      changeScreen();
+    .then((resp) => {
+      console.log('Log in ', JSON.stringify(resp, null, 3));
+      console.log('id user ', resp.user.uid);
+      const id = resp.user.uid
+      getUser(id);
     })
     .catch(error => {
       if (error.code === 'auth/email-already-in-use') {
@@ -59,9 +63,83 @@ const LoginScreens = ({navigation}) => {
 
   }
 
-  const changeScreen  =()=>{
+  const changeScreen  =(idUSer)=>{
     navigation.navigate('Home');  
+
+    ///////
+    //  usar redux y pasar a home
+                                                                                
+     const usuario = 
+     {
+        
+      user:'',
+      idUsuario:idUSer,
+      tipo:'admin',
+      nombre:'',
+      apellido:'',
+      dni:'',
+      email:text,
+      password:number,
+      foto:'',
+      
+     };
+
+
+// dispatch(AllActions.UserAction.setUser(usuario))
+dispatch(AllActions.UserActions.loginUSer(usuario))
+// navigation.navigate('Home');
+console.log('vamos al home');
+
+    /////////
   }
+
+
+  const getUser = async (idUSer) =>{
+    const suscriber = firestore().collection(`datauser`);
+
+    suscriber
+    .get()
+    .then((results) => {
+      
+    const data = results.docs.map((doc) => ({
+      
+      id: doc.id,
+      ...doc.data(),
+    }));
+    console.log("Toda la colección  ", JSON.stringify(data, null, 3));
+    pasarPantalla(data, idUSer)
+    
+  });
+    
+  }
+
+  const pasarPantalla = (array, idDato) =>{
+
+    console.log('llega data', array)
+    console.log('llega id', idDato)
+
+    let user = array.filter(number =>  number.idUsuario == idDato );
+    console.log(user[0].nombre); 
+    const usuario = 
+    {
+     idUsuario:user[0].idUsuario,
+     tipo:user[0].tipo,
+     nombre:user[0].nombre,
+     apellido:user[0].apellido,
+     dni:user[0].dni,
+     email:user[0].email,
+     password:user[0].password,
+     foto:user[0].foto,
+     
+    };
+
+    console.log('user final', JSON.stringify(usuario, null, 4) ); 
+
+
+
+  }
+
+
 
   const handleRegister = () =>{
 

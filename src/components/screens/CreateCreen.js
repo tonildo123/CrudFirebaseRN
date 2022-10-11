@@ -6,7 +6,7 @@ import React, {useState} from 'react';
 import {
     View, Text, StyleSheet, Image, SafeAreaView, TextInput, TouchableOpacity,Button, Dimensions
  } from 'react-native';
- import firestore from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 var { height } = Dimensions.get('window');

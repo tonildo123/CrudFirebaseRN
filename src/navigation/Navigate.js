@@ -11,6 +11,8 @@ import CreateCreen from '../components/screens/CreateCreen';
 import RegiisterScreen from '../components/screens/RegiisterScreen';
 import RegisterData from '../components/screens/RegisterData';
 import RegisterScreenSelfie from '../components/screens/RegisterScreenSelfie';
+import {useSelector, useDispatch} from 'react-redux';
+import NavigationDrawer from './NavigationDrawer';
 
 
 const Stack = createNativeStackNavigator();
@@ -18,9 +20,17 @@ const Stack = createNativeStackNavigator();
 
 const Navigate = () => {
 
+  const currentUser = useSelector(state => state.CurrentUser)
+
+
+
   return (
     <NavigationContainer>
-      <Stack.Navigator
+
+      {
+        (currentUser.loggedIn=='false')
+        ? <NavigationDrawer/>
+        : <Stack.Navigator
         screenOptions={{
           headerShown:false,
           cardStyle:{
@@ -36,6 +46,8 @@ const Navigate = () => {
         <Stack.Screen name="Registerdos" component={RegisterData} />
         <Stack.Screen name="Registertres" component={RegisterScreenSelfie} />
       </Stack.Navigator>
+      }
+      
     </NavigationContainer>
 
 
