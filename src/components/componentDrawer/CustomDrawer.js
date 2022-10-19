@@ -155,7 +155,7 @@ const CustomDrawer = (props) => {
                         <DrawerItem
                             label='Listar'
                             onPress={
-                                ()=>{props.navigation.navigate('Club')}}
+                                ()=>{props.navigation.navigate('ListarUniones')}}
                         />
                          
                     }

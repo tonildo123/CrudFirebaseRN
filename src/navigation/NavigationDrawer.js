@@ -10,6 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import UnionesScreen from '../components/screensadmin/UnionesScreen';
 import UnionesScreen2 from '../components/screensUniones/UnionesScreen2';
+import ListarUniones from '../components/screensUniones/ListarUniones';
 
 
 const Drawer = createDrawerNavigator();
@@ -58,6 +59,13 @@ function NavigationDrawer() {
         }}
       />
       <Drawer.Screen name="UnionesAlta" component={UnionesScreen2} 
+        options={{
+          drawerIcon:({color})=>(
+            <MaterialIcons name="sports-rugby" size={23} color={color}  />
+          )
+        }}
+      />
+      <Drawer.Screen name="ListarUniones" component={ListarUniones} 
         options={{
           drawerIcon:({color})=>(
             <MaterialIcons name="sports-rugby" size={23} color={color}  />
