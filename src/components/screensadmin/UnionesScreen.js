@@ -7,21 +7,13 @@ import {
 
 const UnionesScreen = ({navigation}) => {
 
-    const [name, setName] = useState(""); 
-    const [acronimo, setAcronimo] = useState(""); 
-    const [cuit, setCuit] = useState(null); 
-    const [telefono, setTelefono] = useState(null); 
-    const [domicilio, setDomicilio] = useState(""); 
+    const [name, setName] = useState("nombre"); 
+    const [acronimo, setAcronimo] = useState("acronimo"); 
+    const [cuit, setCuit] = useState('cuit'); 
+    const [telefono, setTelefono] = useState('telefono'); 
+    const [domicilio, setDomicilio] = useState("domicilio"); 
 
-    const [datos, setDatos] = useState({
     
-      nombre: '',
-      acronimo: '',
-      cuit:null, 
-      telefono:null, 
-      domicilio:'',
-     
-  });
 
   /////////////////
 
@@ -29,15 +21,6 @@ const handleContinue = () =>{
 
   console.log(name);
 
-  setDatos(
-    {     
-      ...datos,
-      nombre:name,
-      acronimo: acronimo,
-      cuit:cuit, 
-      telefono:telefono, 
-      domicilio:domicilio,
-  })
   
   
   loadingData();
@@ -48,11 +31,11 @@ const loadingData = ()=>{
 
 
   const enviar = {
-    nombre:datos.nombre,
-    acronimo:datos.acronimo,
-    cuit:datos.cuit, 
-    telefono:datos .telefono,
-    domicilio:datos.domicilio,
+    nombre:name,
+    acronimo:acronimo,
+    cuit:cuit ,
+    telefono:telefono,
+    domicilio:domicilio,
 
   }
 
@@ -106,7 +89,7 @@ const loadingData = ()=>{
 export default UnionesScreen
 
 const styles = StyleSheet.create({
-    // wrapper: {},
+    
     input: {
         height: 40,
         margin: 12,
@@ -117,8 +100,6 @@ const styles = StyleSheet.create({
       },
     slide1: {
       flex: 1,
-    //   justifyContent: 'center',
-    //   alignItems: 'center',
       paddingTop:20,
       backgroundColor: 'grey'
     },
@@ -148,12 +129,9 @@ const styles = StyleSheet.create({
     button: {
       alignItems: "center",
       backgroundColor: "#85929E",    
-      // borderWidth: 4,
       borderRadius: 10,
       padding:20,
       margin:10,
-      // fontSize:50,
-      
     },
     textButton:{
       fontSize:20,
