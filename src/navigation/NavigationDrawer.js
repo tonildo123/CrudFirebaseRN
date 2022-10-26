@@ -14,6 +14,7 @@ import ListarUniones from '../components/screensUniones/ListarUniones';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ListPartidos from '../components/screenpartidos/ListPartidos';
 import CreatePartido from '../components/screenpartidos/CreatePartido';
+import ClubeScreen2 from '../components/screensClubes/ClubesScreen2';
 
 
 const Drawer = createDrawerNavigator();
@@ -58,6 +59,13 @@ function NavigationDrawer() {
       <Drawer.Screen name="ListarUniones" component={ListarUniones}/>
       <Drawer.Screen name="PartidoAlta" component={CreatePartido}/>
       <Drawer.Screen name="PartidoListar" component={ListPartidos} />
+      <Drawer.Screen name="ClubAlta" component={ClubeScreen2} 
+        options={{
+          drawerIcon:({color})=>(
+            <MaterialIcons name="sports-rugby" size={23} color={color}  />
+          )
+        }}
+      />
       
     </Drawer.Navigator>
   );
