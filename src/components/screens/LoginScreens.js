@@ -4,13 +4,8 @@ import React, {useState, useEffect} from 'react';
 import {
   Platform,
   Dimensions,
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity,
+  View, Text, Image, StyleSheet, SafeAreaView, 
+  TextInput, TouchableOpacity, Alert
 } from 'react-native';
 
 import logoImg from '../../assets/vectoricon.png';
@@ -41,43 +36,61 @@ const LoginScreens = ({navigation}) => {
 
   // }, [])
 
-  const handleLogin = () => {
-    console.log('user', text);
-    console.log('pass', number);
+  
+
+  const handleLogin = () =>{
+
+    setLoadingData(true)
+
+    console.log('user', text)
+    console.log('pass', number)
 
     auth()
-      .signInWithEmailAndPassword(text, number)
-      .then(resp => {
-        console.log('Log in ', JSON.stringify(resp, null, 3));
-        console.log('id user ', resp.user.uid);
-        const id = resp.user.uid;
-        getUser(id);
-      })
-      .catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-          console.log('That email address is already in use!');
-        }
+    .signInWithEmailAndPassword(text, number)
+    .then((resp) => {
+      console.log('Log in ', JSON.stringify(resp, null, 3));
+      console.log('id user ', resp.user.uid);
+      const id = resp.user.uid
+      getUser(id);
+    })
+    .catch(error => {
+      setLoadingData(false)
+      if (error.code === 'auth/email-already-in-use') {
+        console.log('That email address is already in use!');
+      }
+  
+      if (error.code === 'auth/invalid-email') {
+        console.log('That email address is invalid!');
+      }
+  
+      console.error(error);
+    });
 
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
-        }
-
-        console.error(error);
-      });
+        
   };
 
   const getUser = async idUSer => {
     const suscriber = firestore().collection(`datauser`);
 
-    suscriber.get().then(results => {
-      const data = results.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      console.log('Toda la colección  ', JSON.stringify(data, null, 3));
-      pasarPantalla(data, idUSer);
-    });
-  };
+    suscriber
+    .get()
+    .then((results) => {
+      
+    const data = results.docs.map((doc) => ({
+      
+      id: doc.id,
+      ...doc.data(),
+    }));
+    console.log("Toda la colección  ", JSON.stringify(data, null, 3));
+    pasarPantalla(data, idUSer)
+    
+  }).catch((error)=>{
+    console.log('error data user', error)
+    Alert.alert('Verifique sus datos')
+    setLoadingData(false)
+  });
+    
+  }
 
   const pasarPantalla = (array, idDato) => {
     console.log('llega data', array);
@@ -96,13 +109,22 @@ const LoginScreens = ({navigation}) => {
       foto: user[0].foto,
     };
 
-    console.log('user final', JSON.stringify(usuario, null, 4));
-    dispatch(AllActions.UserActions.loginUSer(usuario));
-  };
+    console.log('user final', JSON.stringify(usuario, null, 4) ); 
+    setLoadingData(false)
+    dispatch(AllActions.UserActions.loginUSer(usuario))
 
-  const handleRegister = () => {
-    navigation.navigate('Register');
-  };
+
+  }
+
+
+
+  const handleRegister = () =>{
+
+    navigation.navigate('Register');  
+
+  }
+
+  
 
   return (
     <View style={styles.container}>
@@ -145,7 +167,7 @@ const LoginScreens = ({navigation}) => {
               value={number}
               secureTextEntry={showPassword ? false : true}
               placeholder="*********"
-              keyboardType="numeric"
+              keyboardType="text"
             />
             <TouchableOpacity
               onPress={() => {
@@ -161,8 +183,16 @@ const LoginScreens = ({navigation}) => {
         </SafeAreaView>
       </View>
       <View>
-        <TouchableOpacity style={styles.buttonLogin} onPress={handleLogin}>
-          <Text style={styles.textButton}>INICIAR SESION</Text>
+        <TouchableOpacity
+         style={styles.buttonLogin}
+         onPress={handleLogin}
+        >
+          {
+            (loadingData)
+            ?<Text style={styles.textButton}>Cargando..</Text>
+            :<Text style={styles.textButton}>INICIAR SESION</Text>
+          }
+          
         </TouchableOpacity>
       </View>
       <View>

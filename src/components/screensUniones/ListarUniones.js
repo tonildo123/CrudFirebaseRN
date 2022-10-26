@@ -103,7 +103,7 @@ const ListarUniones = () => {
             >
             <Text style={styles.textButton}>Subir un producto nuevo</Text>
           </TouchableOpacity> */}
-          <Text style={styles.title}>Uniones</Text>
+          <Text style={styles.title}>Lista de Uniones</Text>
           <FlatList 
             data={data}
             renderItem={handleItem}

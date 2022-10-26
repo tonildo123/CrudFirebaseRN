@@ -5,13 +5,17 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { DrawerContentScrollView, DrawerItem, DrawerItemList, DrawerContent } from '@react-navigation/drawer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Drawer} from 'react-native-paper';
+import {useSelector, useDispatch} from 'react-redux';
+import AllActions from '../../store/actions/AllActions';
 
 
 const CustomDrawer = (props) => {
 
+    const dispatch = useDispatch()
     const [NestedDrawerItem, setNestedDrawerItem] = useState(false);
     const [NestedDrawerItemUnion, setNestedDrawerItemUnion] = useState(false);
     const [NestedDrawerItemClub, setNestedDrawerItemClub] = useState(false);
+    const [NestedDrawerItemPartido, setNestedDrawerItemPartido] = useState(false);
     const [focus, setFocus] = useState('1');
     
     const HandleNested = ()=>{
@@ -27,6 +31,16 @@ const CustomDrawer = (props) => {
 
         setNestedDrawerItemClub(!NestedDrawerItemClub);
     }
+    const HandleNestedPartido = ()=>{
+
+        setNestedDrawerItemPartido(!NestedDrawerItemPartido);
+    }
+
+    const handleExit = ()=>{
+        // dispatch(AllActions.UserActions.loginUSer(usuario))
+        dispatch(AllActions.UserActions.logoutUSer());
+
+    }
     
 
   return (
@@ -36,35 +50,73 @@ const CustomDrawer = (props) => {
         <DrawerContentScrollView 
             {...props}
             contentContainerStyle={{
-                backgroundColor:'grey',
+                backgroundColor:'black',
 
             }}
         
         >
             <ImageBackground
-                source={require('../../assets/succes.png')}
+                source={require('../../assets/portadados.png')}
                 style={{padding:30,
+                        
                 }}
             >
-                <Image 
-                    source={require('../../assets/avatar.png')}
+                <View
                     style={{
-                        height:80,
-                        width:80, 
-                        borderRadius:40,
-                        marginBottom:10,
-
+                        flex:1,
+                        flexDirection:'column'
                     }}
-                />
-                <Text
+                >
+                    <View
+                    style={{
+                        width:'100%',
+                        height:'40%', 
+                        
+                    }}
+                    ></View>
+                    <View
+                    style={{
+                        width:'100%',
+                        height:'10%'
+                    }}
+                    ></View>
+                    <View
+                    style={{
+                        width:'100%',
+                        height:'50%', 
+                        flexDirection:'row'
+                    }}
+                    >   
+                    <View
+                    style={{
+                        width:'50%',
+                        height:'100%'
+                    }}
+                    >
+                        <Image 
+                            source={require('../../assets/avatar.png')}
+                            style={{
+                                height:80,
+                                width:80, 
+                                borderRadius:40,
+                                marginBottom:10,
+                            }}
+                        />
+
+                    </View>
+                    <View
+                    style={{
+                        width:'50%',
+                        height:'100%'
+                    }}
+                    >
+                        <Text
                     style={{
                         color:'#fff',
-                        fontSize:18,
+                        fontSize:20,
                         fontFamily:'Roboto-Medium'
                     }}
                 >Tony Diaz</Text>
-                <View 
-                    style={{flexDirection:'row'}}>
                     <Text
                         style={{
                             color:'#fff',
@@ -77,8 +129,11 @@ const CustomDrawer = (props) => {
                         color='white'
                         size={20}
                     />
+                        
+                    </View>
+                        
+                    </View>
                 </View>
-                
             </ImageBackground>
             <View 
             style={{
@@ -197,6 +252,43 @@ const CustomDrawer = (props) => {
                          
                     }
                     
+                </Drawer.Section>
+                <Drawer.Section>
+                    <DrawerItem
+                        focused={
+                           focus== 1 ? true : false
+                        }
+                        label='Partido'
+                        onPress={HandleNestedPartido}
+                        icon={()=>(
+                            <FontAwesome
+                                name="soccer-ball-o"
+                                color='blue'
+                                size={20}
+                            />
+                        )
+                            
+                        }
+                    />
+                    {
+                        NestedDrawerItemPartido == true && 
+                        <DrawerItem
+                            label='Crear'
+                            onPress={
+                                ()=>{props.navigation.navigate('PartidoAlta')}}
+                        />
+                         
+                    }
+                    {
+                        NestedDrawerItemPartido == true && 
+                        <DrawerItem
+                            label='Listar'
+                            onPress={
+                                ()=>{props.navigation.navigate('PartidoListar')}}
+                        />
+                         
+                    }
+                    
                 </Drawer.Section>    
             </View>
             
@@ -205,17 +297,18 @@ const CustomDrawer = (props) => {
          
         <View
             style={{
-                padding:20,
+                padding:10,
                 borderTopWidth:2,
                 borderTopColor:'black',
             }}
         >
             <TouchableOpacity
                 onPress={()=>{
+                    handleExit();
                     console.log('exit')
                 }}
                 style={{
-                    paddingVertical:15
+                    paddingVertical:5
                 }}
             >
             <View
@@ -230,33 +323,11 @@ const CustomDrawer = (props) => {
                         color='black'
                         size={20}
                     />       
-                <Text style={{paddingHorizontal:20}}>Salir</Text>
+                <Text style={{paddingHorizontal:20, color:'black'}}>Salir</Text>
         </View>
       
             </TouchableOpacity>
-            <TouchableOpacity
-                onPress={()=>{
-                    console.log('exit')
-                }}
-                style={{
-                    paddingVertical:15
-                }}
-            >
-            <View
-                    style={{
-                        flexDirection:'row',
-                        alignItems:'center',
-                    }}
-                >
-                <Ionicons
-                        name="exit-outline"
-                        color='black'
-                        size={20}
-                    />       
-                <Text style={{paddingHorizontal:20}}>Cerrar Sesion</Text>
-        </View>
-      
-            </TouchableOpacity>
+           
             
         </View>
         
