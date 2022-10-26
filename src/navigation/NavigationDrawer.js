@@ -11,6 +11,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import UnionesScreen from '../components/screensadmin/UnionesScreen';
 import UnionesScreen2 from '../components/screensUniones/UnionesScreen2';
 import ListarUniones from '../components/screensUniones/ListarUniones';
+import ClubeScreen2 from '../components/screensClubes/ClubesScreen2';
 
 
 const Drawer = createDrawerNavigator();
@@ -66,6 +67,13 @@ function NavigationDrawer() {
         }}
       />
       <Drawer.Screen name="ListarUniones" component={ListarUniones} 
+        options={{
+          drawerIcon:({color})=>(
+            <MaterialIcons name="sports-rugby" size={23} color={color}  />
+          )
+        }}
+      />
+      <Drawer.Screen name="ClubAlta" component={ClubeScreen2} 
         options={{
           drawerIcon:({color})=>(
             <MaterialIcons name="sports-rugby" size={23} color={color}  />

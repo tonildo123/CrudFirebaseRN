@@ -12,8 +12,9 @@ import {
   Button,
   AsyncStorageStatic,
   Alert,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 
 import auth from '@react-native-firebase/auth';
 
@@ -30,6 +31,8 @@ const RegisterData = ({route, navigation}) => {
   const [pass, setPass] = useState(''); // password
   const [pass2, setPass2] = useState(''); // password
   const [id, setId] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const [datos, setDatos] = useState({
     idUsuario: id,
     tipo: 'Admin',
@@ -86,8 +89,11 @@ const RegisterData = ({route, navigation}) => {
     <View style={styles.slide1}>
       <ImageBackground
         source={require('../../assets/fondo.jpg')}
-        style={{flex: 1,
-        justifyContent: "center", opacity:.4}}></ImageBackground>
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          opacity: 0.4,
+        }}></ImageBackground>
       <Text style={styles.text}>Sigamos</Text>
       <TextInput
         style={styles.input}
@@ -99,14 +105,36 @@ const RegisterData = ({route, navigation}) => {
         style={styles.input}
         onChangeText={setPass}
         value={pass}
-        placeholder="*********"
+        secureTextEntry={showPassword ? false : true}
+        placeholder="Contraseña"
       />
+      <TouchableOpacity
+        onPress={() => {
+          setShowPassword(!showPassword);
+        }}>
+        {showPassword ? (
+          <Feather name="eye" color="black" size={20} />
+        ) : (
+          <Feather name="eye-off" color="gray" size={20} />
+        )}
+      </TouchableOpacity>
       <TextInput
         style={styles.input}
         onChangeText={setPass2}
         value={pass2}
-        placeholder="*********"
+        secureTextEntry={showPassword2 ? false : true}
+        placeholder="Repita contraseña"
       />
+      <TouchableOpacity
+        onPress={() => {
+          setShowPassword(!showPassword2);
+        }}>
+        {showPassword2 ? (
+          <Feather name="eye" color="black" size={20} />
+        ) : (
+          <Feather name="eye-off" color="gray" size={20} />
+        )}
+      </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
         onPress={() => {

@@ -181,7 +181,7 @@ const CustomDrawer = (props) => {
                     {
                         NestedDrawerItemClub == true && 
                         <DrawerItem
-                            label='Crear'
+                            label='Alta de Club'
                             onPress={
                                 ()=>{props.navigation.navigate('Club')}}
                         />
