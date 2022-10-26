@@ -2,7 +2,8 @@ import React, { useState, useEffect} from 'react';
 import {
   Platform, 
   Dimensions,
-  View, Text, Image, StyleSheet, SafeAreaView, TextInput, TouchableOpacity
+  View, Text, Image, StyleSheet, SafeAreaView, 
+  TextInput, TouchableOpacity, Alert
 } from 'react-native';
 
 import logoImg from '../../assets/vectoricon.png';
@@ -42,6 +43,8 @@ const LoginScreens = ({navigation}) => {
 
   const handleLogin = () =>{
 
+    setLoadingData(true)
+
     console.log('user', text)
     console.log('pass', number)
 
@@ -54,6 +57,7 @@ const LoginScreens = ({navigation}) => {
       getUser(id);
     })
     .catch(error => {
+      setLoadingData(false)
       if (error.code === 'auth/email-already-in-use') {
         console.log('That email address is already in use!');
       }
@@ -87,6 +91,10 @@ const LoginScreens = ({navigation}) => {
     console.log("Toda la colección  ", JSON.stringify(data, null, 3));
     pasarPantalla(data, idUSer)
     
+  }).catch((error)=>{
+    console.log('error data user', error)
+    Alert.alert('Verifique sus datos')
+    setLoadingData(false)
   });
     
   }
@@ -112,6 +120,7 @@ const LoginScreens = ({navigation}) => {
     };
 
     console.log('user final', JSON.stringify(usuario, null, 4) ); 
+    setLoadingData(false)
     dispatch(AllActions.UserActions.loginUSer(usuario))
 
 
@@ -149,7 +158,7 @@ const LoginScreens = ({navigation}) => {
           <TextInput
           style={styles.input}
           onChangeText={onChangeText}
-          placeholder="Usuario/eMail/Telefono"
+          placeholder="eMail"
           value={text}
           />
         </View> 
@@ -172,7 +181,7 @@ const LoginScreens = ({navigation}) => {
               value={number}
               secureTextEntry={showPassword ? false : true}
               placeholder="*********"
-              keyboardType="numeric"
+              keyboardType="text"
             />
             <TouchableOpacity
               onPress={()=>{setShowPassword(!showPassword)}}
@@ -202,7 +211,12 @@ const LoginScreens = ({navigation}) => {
          style={styles.buttonLogin}
          onPress={handleLogin}
         >
-          <Text style={styles.textButton}>INICIAR SESION</Text>
+          {
+            (loadingData)
+            ?<Text style={styles.textButton}>Cargando..</Text>
+            :<Text style={styles.textButton}>INICIAR SESION</Text>
+          }
+          
         </TouchableOpacity>
       </View>
       <View>

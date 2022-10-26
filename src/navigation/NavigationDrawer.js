@@ -11,6 +11,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import UnionesScreen from '../components/screensadmin/UnionesScreen';
 import UnionesScreen2 from '../components/screensUniones/UnionesScreen2';
 import ListarUniones from '../components/screensUniones/ListarUniones';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import ListPartidos from '../components/screenpartidos/ListPartidos';
+import CreatePartido from '../components/screenpartidos/CreatePartido';
 
 
 const Drawer = createDrawerNavigator();
@@ -22,56 +25,39 @@ function NavigationDrawer() {
 
   return (
     <Drawer.Navigator 
+      
+      drawerType={width >= 768 ? 'permanent' : 'front'}
       screenOptions={{
-        headerShown:false,
+        headerShown:true,
+        title:'Kani Sport',        
+        headerStyle: {
+          backgroundColor: '#2874A6', //Set Header color
+          elevation:0,
+          shadowColor:'transparent',
+        },
+        headerTintColor: '#fff', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+        },
+
       }}
       drawerContent={props => <CustomDrawer {...props}/>}
     >
       
       <Drawer.Screen name="Home" component={HomeScreen}
-        
-        
-        options={{
-          drawerIcon:({color})=>(
-            <Ionicons name="home-outline" size={23} color={color}  />
-          )
-        }}
+        // options={{
+        //   drawerIcon:({color})=>(
+        //     <Ionicons name="home-outline" size={23} color={color}  />
+        //   )
+        // }}
       />
-      <Drawer.Screen name="Club" component={ClubScreen} 
-        options={{
-          drawerIcon:({color})=>(
-            <Entypo name="sports-club" size={23} color={color}  />
-          )
-        }}
-      />
-      <Drawer.Screen name="Partido" component={PartidoScreen} 
-        options={{
-          drawerIcon:({color})=>(
-            <MaterialIcons name="sports-rugby" size={23} color={color}  />
-          )
-        }}
-      />
-      <Drawer.Screen name="Uniones" component={UnionesScreen} 
-        options={{
-          drawerIcon:({color})=>(
-            <MaterialIcons name="sports-rugby" size={23} color={color}  />
-          )
-        }}
-      />
-      <Drawer.Screen name="UnionesAlta" component={UnionesScreen2} 
-        options={{
-          drawerIcon:({color})=>(
-            <MaterialIcons name="sports-rugby" size={23} color={color}  />
-          )
-        }}
-      />
-      <Drawer.Screen name="ListarUniones" component={ListarUniones} 
-        options={{
-          drawerIcon:({color})=>(
-            <MaterialIcons name="sports-rugby" size={23} color={color}  />
-          )
-        }}
-      />
+      <Drawer.Screen name="Club" component={ClubScreen}/>
+      <Drawer.Screen name="Partido" component={PartidoScreen} />
+      <Drawer.Screen name="Uniones" component={UnionesScreen}/>
+      <Drawer.Screen name="UnionesAlta" component={UnionesScreen2}/>
+      <Drawer.Screen name="ListarUniones" component={ListarUniones}/>
+      <Drawer.Screen name="PartidoAlta" component={CreatePartido}/>
+      <Drawer.Screen name="PartidoListar" component={ListPartidos} />
       
     </Drawer.Navigator>
   );
