@@ -22,19 +22,9 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const ClubeScreen2 = ({navigation}) => {
   const currentUser = useSelector(state => state.CurrentUser);
 
-  let date = new Date();
-  let Fecha =
-    String(date.getDate()).padStart(2, '0') +
-    '-' +
-    String(date.getMonth() + 1).padStart(2, '0') +
-    '-' +
-    date.getFullYear();
-  let startdate = Moment();
-  // startdate = startdate.subtract(7, "days");
-  // startdate = startdate.format("DD-MM-YYYY");
-
   const recibo = useRoute();
   const recibi = recibo.params.enviar;
+  const recibiuniones = recibo.params.data;
   
   const name = recibi.nombre;
   const acronimo = recibi.acronimo;
@@ -54,7 +44,6 @@ const ClubeScreen2 = ({navigation}) => {
     {label: 'Salta', value: 3},
   ]); //dropdown
   const [itemProvincia, setItemProvincia] = useState('');
-  const [itemUnion, setItemUnion] = useState('');
   const [logo, setLogo] = useState('https://via.placeholder.com/200'); // seleccionar imagen
   
   ///////////////////////////
@@ -62,14 +51,15 @@ const ClubeScreen2 = ({navigation}) => {
   const [valuedep, setValueDep] = useState(null);
   const [openPro, setOpenProv] = useState(false);
   const [valueProv, setValuePrv] = useState(null);
-  const [valueUnion, setUnion] = useState(null);
-  const [openUnion, setOpenUnion] = useState(false);
   const [openPais, setOpenPais] = useState(false);
   const [valuePais, setValuePais] = useState(null);
-  const [data, setDatas] = useState();
-  const [bandera,setBandera] = useState(false)
-  const [isLoading,setIsLoading ] = useState(true);
-  const [listaunion, setListaUniones] = useState([]);
+  const [isLoading,setIsLoading ] = useState(false);
+
+
+  const [listaunion, setListaUniones] = useState();
+  const [itemUnion, setItemUnion] = useState('');
+  const [valueUnion, setValueUnion] = useState(null);
+  const [openUnion, setOpenUnion] = useState(false);
   
   ///////////////////////////
   
@@ -80,57 +70,32 @@ const ClubeScreen2 = ({navigation}) => {
     provincia: '',
     logo: '',
   });
+ 
+  ////////////////
 
+  let otro_array = [];
   
-  
-  const getUniones = async () => {
-    const suscriber = firestore()
-    .collection('uniones')
-    .onSnapshot(querySnapshot => {
-      const uniones = [];
-      querySnapshot.forEach(documentSnapshot => {
-        uniones.push({
-          ...documentSnapshot.data(),
-          key: documentSnapshot.id,
-        });
-      });
-      console.log('que tiene uniones en screen2 ', uniones)
-      setDatas(uniones);
-      setBandera(true)
-    });
-    return () => suscriber();
-  };
-
-  const listaUniones = async () => {
-    
-  }
-  
-  /////////////////
   
   useEffect(() => {
-    const suscriber = firestore().collection("uniones").onSnapshot((querySnapshot) => {
-      const uniones = [];
-      querySnapshot.forEach((doc)=> {
-        const {acronimo,cuit,idUnion} = doc.data()
-        uniones.push({
-          id:doc.id,
-          acronimo,
-          cuit,
-          idUnion
-        })
-      })
-      setListaUniones(uniones)
-      setBandera(true)
+
+    
+    console.log('datos de la primera pantalla', recibi);
+    console.log('uniones recibidas', recibiuniones);
+
+    const items = []
+    recibiuniones.map(item => {
+        items.push({ label: item.acronimo, value: item.idUnion })
     })
-    return () => suscriber();
-    // console.log(
-    //   'llegan de la primera pantalla',
-    //   JSON.stringify(recibo, null, 3),
-    // );
-    // console.log('ver que onda ', data)
-    // console.log('nombre', JSON.stringify(name, null, 3));
-    // console.log('obtengo x redux', JSON.stringify(currentUser, null, 3));
+
+    setListaUniones(items)
+
+
+
   }, []);
+
+  
+  ///////////////////////////////
+
 
   const PreContinue = () => {
     setIsLoading(true);
@@ -178,9 +143,7 @@ const ClubeScreen2 = ({navigation}) => {
     }
   };
 
-  //  navigation.navigate('Registerdos', {enviar})
-
-  // selecciona una imagen
+  
   const handleImagen = () => {
     const options = {
       title: 'Seleccione una imagen',
@@ -278,57 +241,6 @@ const ClubeScreen2 = ({navigation}) => {
             />
           </View>
         </View>
-        <View style={{width: '96%', margin: '2%'}}>
-          {console.log('ver si carga aqui  ', listaunion)}
-          {/* {listaunion.map((element) => {
-            return (
-              <DropDownPicker
-                placeholder="Union"
-                open={openUnion}
-                key={element.idUnion}
-                value={valueUnion}
-                items={element.acronimo}
-                setOpen={setOpenUnion}
-                setValue={setUnion}
-                onSelectItem={item => {
-                  setItemUnion(item.value);
-                }}
-              />
-            );
-          })} */}
-          {bandera ? (
-            listaunion.map((element) => {
-            return (
-              <DropDownPicker
-                placeholder="Union"
-                open={openUnion}
-                key={element.idUnion}
-                value={valueUnion}
-                items={element.acronimo}
-                setOpen={setOpenUnion}
-                setValue={setUnion}
-                onSelectItem={item => {
-                  setItemUnion(item.value);
-                }}
-              />
-            );
-          })
-          ) : (
-            <Text style={styles.textButton}>Espere.. s</Text>
-          )}
-          {/* <DropDownPicker
-            placeholder="Union"
-            open={openUnion}
-            value={valueUnion}
-            items={unionesmap}
-            setOpen={setOpenUnion}
-            setValue={setUnion}
-            onSelectItem={item => {
-              setItemUnion(item.value);
-            }}
-          /> */}
-        </View>
-
         <View style={{margin: '3%'}}>
           <Button title="Seleccionar una imagen" onPress={handleImagen} />
           <Image
@@ -339,6 +251,19 @@ const ClubeScreen2 = ({navigation}) => {
             }}
             source={{uri: logo}}
           />
+        </View>
+        <View style={{width: '100%'}}>        
+            <DropDownPicker
+              placeholder="Union"
+              open={openUnion}
+              value={valueUnion}
+              items={listaunion}
+              setOpen={setOpenUnion}
+              setValue={setValueUnion}
+              onSelectItem={item => {
+                setItemUnion(item.label);
+              }}
+            />          
         </View>
 
         <TouchableOpacity onPress={PreContinue} style={styles.button}>

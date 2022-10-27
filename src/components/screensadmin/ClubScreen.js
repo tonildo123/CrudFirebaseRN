@@ -6,9 +6,10 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import {DocumentSnapshot} from 'firebase/firestore';
+
 
 const ClubScreen = ({navigation}) => {
   const [name, setName] = useState('');
@@ -16,32 +17,38 @@ const ClubScreen = ({navigation}) => {
   const [cuit, setCuit] = useState('');
   const [telefono, setTelefono] = useState('');
   const [domicilio, setDomicilio] = useState('');
-  const [data, setDatas] = useState();
-  const [isLoading,setIsLoading ] = useState(true);
+  const [data, setData] = useState();
+  
 
-  let uniones = [];
-
-  // const getUniones = async () => {
-  //   const suscriber = firestore()
-  //     .collection('uniones')
-  //     .onSnapshot(querySnapshot => {
-  //       querySnapshot.forEach(documentSnapshot => {
-  //         uniones.push({
-  //           ...documentSnapshot.data(),
-  //           key: documentSnapshot.id,
-  //         });
-  //       });
-  //       console.log('que tiene uniones ', uniones)
-  //       setDatas(uniones);
-  //       console.log('ver datos ', data)
-  //     });
-  //   return () => suscriber();
-  // };
+  
 
   useEffect(() => {
-      // getUniones();
+    getUniones();
   }, []);
 
+
+  const getUniones = ()=>{
+    const suscriber = firestore().collection('uniones').
+    onSnapshot(
+      querySnapshot => {
+
+        const uniones = [];
+        querySnapshot.forEach(
+          documentSnapshot => {
+            uniones.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id 
+            })
+              
+
+          }
+        )
+        setData(uniones);
+      }
+    )
+
+    return () => suscriber()
+  }
   /////////////////
 
   const handleContinue = () => {
@@ -59,8 +66,14 @@ const ClubScreen = ({navigation}) => {
       domicilio: domicilio,
     };
 
-    navigation.navigate('ClubAlta', {enviar});
+    navigation.navigate('ClubAlta', {enviar, data});
   };
+
+  const handleMensaje = ()=>{
+
+    Alert.alert('Cargando datos!')
+
+  }
 
   return (
     <View style={styles.slide1}>
@@ -68,7 +81,7 @@ const ClubScreen = ({navigation}) => {
         source={require('../../assets/altas.jpeg')}
         resizeMode="cover"
         style={styles.image}>
-        <Text style={styles.text}>Ingrese datos del Club</Text>
+        <Text style={styles.text}>Datos del Club</Text>
         <View>
           <Text style={styles.text2}>Nombre: </Text>
           <TextInput
@@ -117,9 +130,17 @@ const ClubScreen = ({navigation}) => {
             value={domicilio}
           />
         </View>
-        <TouchableOpacity onPress={handleContinue} style={styles.button}>
-          <Text style={styles.textButton}>Continuar</Text>
-        </TouchableOpacity>
+
+        {
+          (data == undefined)
+          ?<TouchableOpacity onPress={handleMensaje} style={styles.button}>         
+            <Text style={styles.textButton}>Espere..</Text>          
+          </TouchableOpacity>
+          :<TouchableOpacity onPress={handleContinue} style={styles.button}>
+            <Text style={styles.textButton}>Continuar</Text>
+          </TouchableOpacity>
+
+         }
       </ImageBackground>
     </View>
   );
