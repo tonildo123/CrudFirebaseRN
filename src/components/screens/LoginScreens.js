@@ -20,21 +20,23 @@ import AllActions from '../../store/actions/AllActions';
 import firestore from '@react-native-firebase/firestore';
 
 const LoginScreens = ({navigation}) => {
-  const [text, onChangeText] = useState('');
+  
+  const [text, onChangeText] = useState("");
   const [number, onChangeNumber] = useState('');
-  const [validateUser, setValidateUser] = useState(false);
+  const [validateUser, setValidateUser] = useState(false)
   const [validatePassword, setValidatePassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
 
-  const currentUser = useSelector(state => state.CurrentUser);
-  const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.CurrentUser)
+  const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   // dispatch(AllActions.UserActions.loginUSer(text))
-  //   console.log('user actual ', currentUser);
+  useEffect(() => {
+    
+    // dispatch(AllActions.UserActions.loginUSer(text))
+    console.log('user actual ', currentUser);
 
-  // }, [])
+  }, [])
 
   
 
@@ -66,10 +68,14 @@ const LoginScreens = ({navigation}) => {
       console.error(error);
     });
 
-        
-  };
 
-  const getUser = async idUSer => {
+
+  }
+
+  
+
+
+  const getUser = async (idUSer) =>{
     const suscriber = firestore().collection(`datauser`);
 
     suscriber
@@ -92,21 +98,24 @@ const LoginScreens = ({navigation}) => {
     
   }
 
-  const pasarPantalla = (array, idDato) => {
-    console.log('llega data', array);
-    console.log('llega id', idDato);
+  const pasarPantalla = (array, idDato) =>{
 
-    let user = array.filter(number => number.idUsuario == idDato);
-    console.log(user[0].nombre);
-    const usuario = {
-      idUsuario: user[0].idUsuario,
-      tipo: user[0].tipo,
-      nombre: user[0].nombre,
-      apellido: user[0].apellido,
-      dni: user[0].dni,
-      email: user[0].email,
-      password: user[0].password,
-      foto: user[0].foto,
+    console.log('llega data', array)
+    console.log('llega id', idDato)
+
+    let user = array.filter(number =>  number.idUsuario == idDato );
+    console.log(user[0].nombre); 
+    const usuario = 
+    {
+     idUsuario:user[0].idUsuario,
+     tipo:user[0].tipo,
+     nombre:user[0].nombre,
+     apellido:user[0].apellido,
+     dni:user[0].dni,
+     email:user[0].email,
+     password:user[0].password,
+     foto:user[0].foto,
+     
     };
 
     console.log('user final', JSON.stringify(usuario, null, 4) ); 
@@ -123,8 +132,6 @@ const LoginScreens = ({navigation}) => {
     navigation.navigate('Register');  
 
   }
-
-  
 
   return (
     <View style={styles.container}>
@@ -147,7 +154,7 @@ const LoginScreens = ({navigation}) => {
             <TextInput
               style={styles.input}
               onChangeText={onChangeText}
-              placeholder="Usuario/Email/Telefono"
+              placeholder="Email"
               value={text}
             />
           </View>
