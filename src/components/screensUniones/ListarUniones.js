@@ -4,7 +4,7 @@ import firestore from '@react-native-firebase/firestore';
 import {
     View, Text, FlatList, Image, TouchableOpacity,StyleSheet,Alert
  } from 'react-native';
-// import { DocumentSnapshot } from 'firebase/firestore';
+
 
 const ListarUniones = () => {
 

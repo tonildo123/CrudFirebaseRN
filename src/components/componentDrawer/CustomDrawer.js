@@ -1,5 +1,5 @@
 import { View, Text , ImageBackground, Image, Section} from 'react-native';
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { DrawerContentScrollView, DrawerItem, DrawerItemList, DrawerContent } from '@react-navigation/drawer';
@@ -7,6 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Drawer} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 import AllActions from '../../store/actions/AllActions';
+import firestore from '@react-native-firebase/firestore';
 
 
 const CustomDrawer = (props) => {
@@ -17,6 +18,8 @@ const CustomDrawer = (props) => {
     const [NestedDrawerItemClub, setNestedDrawerItemClub] = useState(false);
     const [NestedDrawerItemPartido, setNestedDrawerItemPartido] = useState(false);
     const [focus, setFocus] = useState('1');
+    const [isLoadingPartido, setIsLoadingPartido] = useState(false);
+    const [data, setData] = useState();
     
     const HandleNested = ()=>{
 
@@ -41,6 +44,51 @@ const CustomDrawer = (props) => {
         dispatch(AllActions.UserActions.logoutUSer());
 
     }
+
+    const llamarClubes = ()=>{
+        
+    setIsLoadingPartido(true);
+    const suscriber = firestore().collection('clubes').
+    onSnapshot(
+      querySnapshot => {
+        
+        const clubes = [];
+        querySnapshot.forEach(
+          documentSnapshot => {
+            clubes.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id 
+            })
+            
+  
+          }
+        )
+        // console.log('clubes', clubes)
+        setData(clubes);
+        
+          
+        
+  
+      }
+    ) 
+    return () => suscriber()
+  }
+        
+
+  useEffect(() => {
+
+    console.log('clubes .... ', data)
+
+    if(data != undefined){
+    setIsLoadingPartido(false);
+    props.navigation.navigate('PartidoAlta', {data})
+    }
+    
+    
+    
+  }, [data])
+  
+    
     
 
   return (
@@ -273,9 +321,9 @@ const CustomDrawer = (props) => {
                     {
                         NestedDrawerItemPartido == true && 
                         <DrawerItem
-                            label='Crear'
+                            label={(isLoadingPartido) ? 'Cargando..' :'Crear'}
                             onPress={
-                                ()=>{props.navigation.navigate('PartidoAlta')}}
+                                ()=>{llamarClubes()}}
                         />
                          
                     }
