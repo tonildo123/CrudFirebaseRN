@@ -84,7 +84,6 @@ const ListPartidos = () => {
           style={{flexDirection:'column', margin:10,alignItems: "center",}}
         >
           <Text style={styles.txtDescripcion}>{item.local} VS {item.visitante}</Text>
-          <Text style={styles.textPrecio}>sede {item.sede}</Text>
           <Text style={styles.textPrecio}>fecha {item.fecha} - hora {item.hora}</Text>
           <Text style={styles.textPrecio}>Dirigido por {item.arbitro}</Text>
           
