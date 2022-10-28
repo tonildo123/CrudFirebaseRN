@@ -48,7 +48,7 @@ const ListPartidos = () => {
   // }
 
   
-  const  handleDelete = (item)=>{
+  const handleDelete = (item)=>{
 
     Alert.alert(
       `Partido dirigido por ${item.arbitro}`,
@@ -79,8 +79,8 @@ const ListPartidos = () => {
 
     return(
       <TouchableOpacity
-          onPress={
-            ()=>handleDelete(item)}
+          // onPress={
+          //   ()=>handleDelete(item)}
           style={{flexDirection:'column', margin:10,alignItems: "center",}}
         >
           <Text style={styles.txtDescripcion}>{item.local} VS {item.visitante}</Text>
