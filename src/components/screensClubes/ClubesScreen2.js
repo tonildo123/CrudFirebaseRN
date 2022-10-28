@@ -8,6 +8,7 @@ import {
   Button,
   Modal,
   ImageBackground,
+  Alert,
 } from 'react-native';
 // import firestore from '@react-native-firebase/firestore';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -135,9 +136,11 @@ const ClubeScreen2 = ({navigation}) => {
         });
     } catch (error) {
       console.log('error al subir datos', error);
+      Alert.alert('Error al crear Union')
       setIsLoading(false);
     } finally {
       setLogo('https://via.placeholder.com/200');
+      Alert.alert('Se creo una Union con exito')
       console.log('subido con exito!');
       setIsLoading(false);
     }

@@ -78,7 +78,7 @@ const ListarUniones = () => {
 
     return(
       <TouchableOpacity
-          onPress={()=>handleDelete(item)}
+          // onPress={()=>handleDelete(item)}
           style={{flexDirection:'column', margin:10,alignItems: "center",}}
         >
         <Text style={styles.txtDescripcion}>{item.nombre}</Text>
@@ -97,12 +97,7 @@ const ListarUniones = () => {
 
   return (
     <View style={styles.container}>
-          {/* <TouchableOpacity
-            style={styles.button}
-            onPress={handleProducto}
-            >
-            <Text style={styles.textButton}>Subir un producto nuevo</Text>
-          </TouchableOpacity> */}
+          
           <Text style={styles.title}>Lista de Uniones</Text>
           <FlatList 
             data={data}
