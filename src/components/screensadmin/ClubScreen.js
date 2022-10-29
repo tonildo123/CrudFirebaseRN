@@ -152,9 +152,9 @@ const styles = StyleSheet.create({
     margin: '3%',
     borderWidth: 2,
     padding: '5%',
-    color: 'white',
+    color: 'black',
     backgroundColor: 'white',
-    opacity: 0.75,
+    opacity: 0.5,
     lineHeight: 84,
   },
   image: {

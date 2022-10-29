@@ -15,6 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ListPartidos from '../components/screenpartidos/ListPartidos';
 import CreatePartido from '../components/screenpartidos/CreatePartido';
 import ClubeScreen2 from '../components/screensClubes/ClubesScreen2';
+import ListarClubes from '../components/screensClubes/ListarClubes';
 
 
 const Drawer = createDrawerNavigator();
@@ -57,6 +58,7 @@ function NavigationDrawer() {
       <Drawer.Screen name="Uniones" component={UnionesScreen}/>
       <Drawer.Screen name="UnionesAlta" component={UnionesScreen2}/>
       <Drawer.Screen name="ListarUniones" component={ListarUniones}/>
+      <Drawer.Screen name="ListarClubes" component={ListarClubes}/>
       <Drawer.Screen name="PartidoAlta" component={CreatePartido}/>
       <Drawer.Screen name="PartidoListar" component={ListPartidos} />
       <Drawer.Screen name="ClubAlta" component={ClubeScreen2} 
