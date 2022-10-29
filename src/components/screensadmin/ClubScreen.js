@@ -85,9 +85,8 @@ const ClubScreen = ({navigation}) => {
         <View>
           <Text style={styles.text2}>Nombre: </Text>
           <TextInput
-            style={styles.input}
+            style={styles.input }
             onChangeText={setName}
-            placeholder="Nombre"
             value={name}
           />
         </View>
@@ -96,7 +95,6 @@ const ClubScreen = ({navigation}) => {
           <TextInput
             style={styles.input}
             onChangeText={setAcronimo}
-            placeholder="Acronimo"
             value={acronimo}
           />
         </View>
@@ -105,7 +103,6 @@ const ClubScreen = ({navigation}) => {
 
           <TextInput
             style={styles.input}
-            placeholder="CUIT"
             onChangeText={setCuit}
             value={cuit}
           />
@@ -154,8 +151,7 @@ const styles = StyleSheet.create({
     margin: '3%',
     borderWidth: 2,
     padding: '5%',
-    fontWeight: 'bold',
-    color: 'black',
+    color: 'white',
     backgroundColor: 'white',
     opacity: 0.75,
     lineHeight: 84,

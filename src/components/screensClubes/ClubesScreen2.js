@@ -101,7 +101,7 @@ const ClubeScreen2 = ({navigation}) => {
     setIsLoading(true);
 
     console.log('id 1', currentUser.user.idUsuario);
-    console.log('id2', currentUser.user.idUsuario + cuit);
+    console.log('id2', valueUnion);
     console.log('nombre', name);
     console.log('acrnimi', acronimo);
     console.log('cuit', cuit);
@@ -117,10 +117,10 @@ const ClubeScreen2 = ({navigation}) => {
   const handleContinue = async () => {
     try {
       firestore()
-        .collection('uniones')
+        .collection('clubes')
         .add({
-          idusuario: currentUser.user.idUsuario,
-          idUnion: currentUser.user.idUsuario + cuit,
+          idClub: currentUser.user.idUsuario + cuit,
+          idUnion: valueUnion,
           nombre: name,
           acronimo: acronimo,
           cuit: cuit,
@@ -130,7 +130,6 @@ const ClubeScreen2 = ({navigation}) => {
           deporte: itemDeporte,
           pais: itemPais,
           provincia: itemProvincia,
-          union: itemUnion,
           logo: logo,
         });
     } catch (error) {
