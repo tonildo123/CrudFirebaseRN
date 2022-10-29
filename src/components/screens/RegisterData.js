@@ -54,13 +54,14 @@ const RegisterData = ({route, navigation}) => {
       .then(resp => {
         console.log('resp : ', JSON.stringify(resp.user.uid, null, 3));
         console.log('User account created & signed in!');
-
         setId(resp.user.uid);
         const idUSer = resp.user.uid;
         changeScreen(idUSer);
       })
       .catch(error => {
         console.error(error);
+        Alert.alert(`${error}`)
+
       });
   };
 
@@ -99,10 +100,13 @@ const RegisterData = ({route, navigation}) => {
         style={styles.input}
         onChangeText={setUser}
         value={user}
-        placeholder="usuario/email/telefono"
+        placeholder="email"
       />
-      <TextInput
-        style={styles.input}
+      <View
+        style={{flexDirection:'row', padding:10}}
+      >
+        <TextInput
+        style={styles.inputpass}
         onChangeText={setPass}
         value={pass}
         secureTextEntry={showPassword ? false : true}
@@ -118,8 +122,14 @@ const RegisterData = ({route, navigation}) => {
           <Feather name="eye-off" color="gray" size={20} />
         )}
       </TouchableOpacity>
-      <TextInput
-        style={styles.input}
+
+      </View>
+
+      <View
+        style={{flexDirection:'row', padding:10}}
+      >
+        <TextInput
+        style={styles.inputpass}
         onChangeText={setPass2}
         value={pass2}
         secureTextEntry={showPassword2 ? false : true}
@@ -127,7 +137,7 @@ const RegisterData = ({route, navigation}) => {
       />
       <TouchableOpacity
         onPress={() => {
-          setShowPassword(!showPassword2);
+          setShowPassword2(!showPassword2);
         }}>
         {showPassword2 ? (
           <Feather name="eye" color="black" size={20} />
@@ -135,6 +145,9 @@ const RegisterData = ({route, navigation}) => {
           <Feather name="eye-off" color="gray" size={20} />
         )}
       </TouchableOpacity>
+      </View>
+      
+      
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
@@ -153,6 +166,15 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    color: 'black',
+    fontSize: 15,
+  },
+  inputpass: {
+    height: 40,
+    width:'90%',
+    marginRight: 12,
     borderWidth: 1,
     padding: 10,
     color: 'black',

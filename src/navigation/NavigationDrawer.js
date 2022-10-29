@@ -3,7 +3,6 @@ import { createDrawerNavigator, DrawerContentComponentProps,
    DrawerContentOptions, DrawerContentScrollView, DrawerItemList  } from '@react-navigation/drawer';
 import ClubScreen from '../components/screensadmin/ClubScreen';
 import HomeScreen from '../components/screensadmin/HomeScreen';
-import PartidoScreen from '../components/screensadmin/PartidoScreen';
 import { Image, Text, useWindowDimensions, View, TouchableOpacity } from 'react-native';
 import CustomDrawer from '../components/componentDrawer/CustomDrawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -16,6 +15,7 @@ import ListPartidos from '../components/screenpartidos/ListPartidos';
 import CreatePartido from '../components/screenpartidos/CreatePartido';
 import ClubeScreen2 from '../components/screensClubes/ClubesScreen2';
 import ListarClubes from '../components/screensClubes/ListarClubes';
+import LoginScreens from '../components/screens/LoginScreens';
 
 
 const Drawer = createDrawerNavigator();
@@ -53,8 +53,8 @@ function NavigationDrawer() {
         //   )
         // }}
       />
+      <Drawer.Screen name="Login" component={LoginScreens}/>
       <Drawer.Screen name="Club" component={ClubScreen}/>
-      <Drawer.Screen name="Partido" component={PartidoScreen} />
       <Drawer.Screen name="Uniones" component={UnionesScreen}/>
       <Drawer.Screen name="UnionesAlta" component={UnionesScreen2}/>
       <Drawer.Screen name="ListarUniones" component={ListarUniones}/>

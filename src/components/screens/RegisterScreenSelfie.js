@@ -3,7 +3,8 @@ import React, { useState, useEffect} from 'react';
 import {
   View, Text, Image, StyleSheet,
   TouchableOpacity, Button,
-  Dimensions
+  Dimensions,
+  Alert
 } from 'react-native';
 // import firestore from '@react-native-firebase/firestore';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -66,10 +67,21 @@ const RegisterScreenSelfie = ({route, navigation}) => {
       })
     } catch (error) {
       console.log('error al subir datos', error)
+      Alert.alert('Hubo un error al guardar datos')
     }finally{
-
       setFotobase64('https://via.placeholder.com/200');
-      
+      Alert.alert(
+        "Exito!",
+        "Datos guardados correctamente!",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => navigation.navigate('Login')}
+        ]
+      );
     }
   }
 
@@ -166,7 +178,9 @@ const login = () =>{
        style={styles.button}
        onPress={cargarDataUser}
       >
-        <Text>Registrarme</Text>
+        <Text
+        style={styles.textButton}
+        >Registrarme</Text>
       </TouchableOpacity>
     </View>
     <View>
@@ -174,7 +188,9 @@ const login = () =>{
        style={styles.button}
        onPress={login}
       >
-        <Text>INICIO - LOGIN</Text>
+        <Text
+        style={styles.textButton}
+        >INICIO - LOGIN</Text>
       </TouchableOpacity>
     </View>
   </View> 
@@ -219,11 +235,15 @@ const styles = StyleSheet.create({
       backgroundColor: '#2196F3',
       borderWidth: 4,
       borderColor: "#20232a",
-      borderRadius: 6,
-      fontSize:50,
+      borderRadius: 6,      
       padding:10,
-      alignSelf:'center',
+      width:'100%'
     },
+    textButton:{
+      alignSelf:'center',
+      color:'white',
+      fontSize:24,
+    }
 });
 
 

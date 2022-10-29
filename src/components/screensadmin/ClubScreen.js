@@ -78,15 +78,17 @@ const ClubScreen = ({navigation}) => {
 
   return (
     <View style={styles.slide1}>
-      <ImageBackground
+      {/* <ImageBackground
         source={require('../../assets/altas.jpeg')}
         resizeMode="cover"
-        style={styles.image}>
+        style={styles.image}> */}
         <Text style={styles.text}>Datos del Club</Text>
         <View>
           <Text style={styles.text2}>Nombre: </Text>
           <TextInput
-            style={styles.input }
+            style={styles.input}
+            placeholder='NOMBRE'
+            placeholderTextColor='grey'
             onChangeText={setName}
             value={name}
           />
@@ -95,6 +97,8 @@ const ClubScreen = ({navigation}) => {
           <Text style={styles.text2}>Acronimo: </Text>
           <TextInput
             style={styles.input}
+            placeholder='ACRONIMO'
+            placeholderTextColor='grey'
             onChangeText={setAcronimo}
             value={acronimo}
           />
@@ -104,6 +108,8 @@ const ClubScreen = ({navigation}) => {
 
           <TextInput
             style={styles.input}
+            placeholder='CUIT'
+            placeholderTextColor='grey'
             onChangeText={setCuit}
             value={cuit}
           />
@@ -114,7 +120,8 @@ const ClubScreen = ({navigation}) => {
           <TextInput
             style={styles.input}
             onChangeText={setTelefono}
-            placeholder="Telefono"
+            placeholder='TELEFONO'
+            placeholderTextColor='grey'
             value={telefono}
           />
         </View>
@@ -124,7 +131,8 @@ const ClubScreen = ({navigation}) => {
           <TextInput
             style={styles.input}
             onChangeText={setDomicilio}
-            placeholder="Domicilio"
+            placeholder='DOMICILIO'
+            placeholderTextColor='grey'
             value={domicilio}
           />
         </View>
@@ -139,7 +147,7 @@ const ClubScreen = ({navigation}) => {
           </TouchableOpacity>
 
          }
-      </ImageBackground>
+      {/* </ImageBackground> */}
     </View>
   );
 };
@@ -149,13 +157,11 @@ export default ClubScreen;
 const styles = StyleSheet.create({
   input: {
     height: 40,
-    margin: '3%',
-    borderWidth: 2,
-    padding: '5%',
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
     color: 'black',
-    backgroundColor: 'white',
-    opacity: 0.5,
-    lineHeight: 84,
+    fontSize: 15,
   },
   image: {
     flex: 1,

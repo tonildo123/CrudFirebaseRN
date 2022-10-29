@@ -139,9 +139,20 @@ const ClubeScreen2 = ({navigation}) => {
       setIsLoading(false);
     } finally {
       setLogo('https://via.placeholder.com/200');
-      Alert.alert('Se creo una Union con exito')
       console.log('subido con exito!');
       setIsLoading(false);
+      Alert.alert(
+        "Exito!",
+        "Club creado correctamente!",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => navigation.navigate('Home')}
+        ]
+      );
     }
   };
 
@@ -189,7 +200,10 @@ const ClubeScreen2 = ({navigation}) => {
             setShowFecha(!showfecha);
           }}>
           <Text style={{fontSize: 24, color: 'white'}}>
-            Fecha de inauguracion
+          {
+              (fecha == undefined)
+              ? 'FECHA DE INAUGURACION' : `${fecha.day<10 ? '0'+fecha.day: fecha.day}/${fecha.month<10 ? '0'+fecha.month: fecha.month}/${fecha.year} `
+         }
           </Text>
         </TouchableOpacity>
         <Modal visible={showfecha} animationType="fade">

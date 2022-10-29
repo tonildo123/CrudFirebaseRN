@@ -62,18 +62,18 @@ const CreatePartido = () => {
   const [hora, setHora] = useState(); // timepicker
   const [minutos, setMinutos] = useState(); // timepicker
   const [tiempos, setTiempos] = useState([
-    {label:'Un tiempo', value:1},
-    {label:'Dos tiempos', value:2},
-    {label:'Tres tiempos', value:3},
+    {label:'Un tiempo de 70', value:11},
+    {label:'Dos tiempos 35', value:22},
+    {label:'Tres tiempos 25-25-20', value:33},
   ]); // dropdown cuantos tiempos
   const [openTiempos, setOpenTiempos] = useState(false);
   const [valueTiempos, setValueTiempos] = useState(null);
   const [itemTiempos, setItemTiempos] = useState(''); 
   //------------------------------------------------------//
   const [duracion, setDuracion] = useState([
-    {label:'Un tiempo de 70', value:11},
-    {label:'Dos tiempos 35', value:22},
-    {label:'Tres tiempos 25-25-20', value:33},
+    {label:'70', value:70},
+    // {label:'Dos tiempos 35', value:22},
+    // {label:'Tres tiempos 25-25-20', value:33},
   ]); // dropdown duracion
   const [openDuracion, setOpenDuracion] = useState(false);
   const [valueDuracion, setValueDuracion] = useState(null);
@@ -156,9 +156,21 @@ const loadingData = async()=>{
   Alert.alert('Error al crear partido ')
   setIsLoading(false);
 }finally{
-  Alert.alert('Se creo el partido exitosamente')
+  
   console.log('subido con exito!')
   setIsLoading(false);
+  Alert.alert(
+    "Exito!",
+    "Partido creado correctamente!",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { text: "OK", onPress: () => navigation.navigate('Home')}
+    ]
+  );
   
 }
 

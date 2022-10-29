@@ -7,11 +7,11 @@ import {
 
 const UnionesScreen = ({navigation}) => {
 
-    const [name, setName] = useState("nombre"); 
-    const [acronimo, setAcronimo] = useState("acronimo"); 
-    const [cuit, setCuit] = useState('cuit'); 
-    const [telefono, setTelefono] = useState('telefono'); 
-    const [domicilio, setDomicilio] = useState("domicilio"); 
+    const [name, setName] = useState(""); 
+    const [acronimo, setAcronimo] = useState(""); 
+    const [cuit, setCuit] = useState(''); 
+    const [telefono, setTelefono] = useState(''); 
+    const [domicilio, setDomicilio] = useState(""); 
 
     
 
@@ -47,31 +47,41 @@ const loadingData = ()=>{
   return (
     <View style={styles.slide1}>
         
-      <Text style={styles.text}>Ingrese sus datos</Text>
+      <Text style={styles.text}>Datos de la Union</Text>
       <TextInput
         style={styles.input}
+        placeholder='NOMBRE'
+        placeholderTextColor='white'
         onChangeText={setName}
         value={name}
       />
       <TextInput
         style={styles.input}
+        placeholder='ACRONIMO'
+        placeholderTextColor='white'
         onChangeText={setAcronimo}
         value={acronimo}
       />
 
       <TextInput
         style={styles.input}
+        placeholder='CUIT'
+        placeholderTextColor='white'
         onChangeText={setCuit}
         value={cuit}
       />
       <TextInput
         style={styles.input}
+        placeholder='TELEFONO'
+        placeholderTextColor='white'
         onChangeText={setTelefono}
         value={telefono}
       />
 
       <TextInput
         style={styles.input}
+        placeholder='DOMICILIO'
+        placeholderTextColor='white'
         onChangeText={setDomicilio}
         value={domicilio}
       />

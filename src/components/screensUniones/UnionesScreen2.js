@@ -137,8 +137,19 @@ try {
 
   setLogo('https://via.placeholder.com/200');
   console.log('subido con exito!')
-  Alert.alert('Se creo la Union con exito')
   setIsLoading(false);
+  Alert.alert(
+    "Exito!",
+    "Union creada correctamente!",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { text: "OK", onPress: () => navigation.navigate('Home')}
+    ]
+  );
   
 }
 
@@ -196,8 +207,13 @@ const handleImagen = () =>{
         }}
       >
         <Text 
-        style={{fontSize:24, color:'white'}}
-        >Fecha de inauguracion</Text>
+        style={{fontSize:22, color:'white'}}
+        >{
+              (fecha == undefined)
+              ? 'FECHA DE INAUGURACION' : `${fecha.day<10 ? '0'+fecha.day: fecha.day}/${fecha.month<10 ? '0'+fecha.month: fecha.month}/${fecha.year} `
+         }
+          
+          </Text>
       </TouchableOpacity>  
       <Modal visible={showfecha} animationType='fade'>
           <Calendar style={{borderRadius:10, elevation:5,margin:40,}}

@@ -7,10 +7,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-// import Swiper from 'react-native-swiper';
-// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import auth from '@react-native-firebase/auth';
-// import firestore from '@react-native-firebase/firestore';
+
 
 const RegiisterScreen = ({navigation}) => {
   const [name, setName] = useState(''); // nombre
