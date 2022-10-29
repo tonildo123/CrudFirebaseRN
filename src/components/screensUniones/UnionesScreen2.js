@@ -2,7 +2,8 @@ import React, { useState, useEffect} from 'react';
 import {
   View, Text, Image, StyleSheet,
   TouchableOpacity, Button,
-  Modal
+  Modal,
+  Alert
 } from 'react-native';
 // import firestore from '@react-native-firebase/firestore';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -130,11 +131,13 @@ try {
   })
 } catch (error) {
   console.log('error al subir datos', error)
+  Alert.alert('Error al crear la Union')
   setIsLoading(false);
 }finally{
 
   setLogo('https://via.placeholder.com/200');
   console.log('subido con exito!')
+  Alert.alert('Se creo la Union con exito')
   setIsLoading(false);
   
 }

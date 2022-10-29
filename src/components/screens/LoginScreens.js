@@ -59,13 +59,15 @@ const LoginScreens = ({navigation}) => {
       setLoadingData(false)
       if (error.code === 'auth/email-already-in-use') {
         console.log('That email address is already in use!');
-      }
-  
-      if (error.code === 'auth/invalid-email') {
+        Alert.alert('El usuario ya esta en uso')
+      } else if (error.code === 'auth/invalid-email') {
         console.log('That email address is invalid!');
+        Alert.alert('Email invalido')
+      } else {
+        Alert.alert('Problemas con el servidor')
+        console.error(error);
       }
-  
-      console.error(error);
+      
     });
 
 

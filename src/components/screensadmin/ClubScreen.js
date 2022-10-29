@@ -43,6 +43,7 @@ const ClubScreen = ({navigation}) => {
 
           }
         )
+        console.log('uniones : ', uniones)
         setData(uniones);
       }
     )
