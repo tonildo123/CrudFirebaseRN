@@ -33,7 +33,7 @@ function NavigationDrawer() {
         headerShown:true,
         title:'Kani Sport',        
         headerStyle: {
-          backgroundColor: '#2874A6', //Set Header color
+          backgroundColor: '#0E6251', //Set Header color
           elevation:0,
           shadowColor:'transparent',
         },

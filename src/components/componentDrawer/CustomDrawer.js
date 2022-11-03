@@ -14,7 +14,7 @@ const CustomDrawer = (props) => {
 
     const currentUser = useSelector(state => state.CurrentUser)
     let url = '../../assets/portadados.png';
-    let uri = currentUser.user.foto;
+    // let uri = currentUser.user.foto;
 
 
     const dispatch = useDispatch()
@@ -203,11 +203,13 @@ const CustomDrawer = (props) => {
                            focus== 1 ? true : false
                         }
                         label='Mi Cuenta'
+                        labelStyle={{color:'#0E6251'}}
+                        labelStyle={{color:'#0E6251'}}
                         onPress={HandleNested}
                         icon={()=>(
                             <FontAwesome
                                 name="user-circle"
-                                color='blue'
+                                color='#0E6251'
                                 size={20}
                             />
                         )
@@ -218,6 +220,7 @@ const CustomDrawer = (props) => {
                         NestedDrawerItem == true && 
                         <DrawerItem
                             label='Completar datos'
+                            labelStyle={{color:'#0E6251'}}
                             onPress={
                                 ()=>{props.navigation.navigate('Club')}}
                         />
@@ -227,6 +230,7 @@ const CustomDrawer = (props) => {
                         NestedDrawerItem == true && 
                         <DrawerItem
                             label='Validar datos'
+                            labelStyle={{color:'#0E6251'}}
                             onPress={
                                 ()=>{props.navigation.navigate('Club')}}
                         />
@@ -240,11 +244,12 @@ const CustomDrawer = (props) => {
                            focus== 1 ? true : false
                         }
                         label='Uniones'
+                        labelStyle={{color:'#0E6251'}}
                         onPress={HandleNestedUnion}
                         icon={()=>(
                             <FontAwesome
                                 name="institution"
-                                color='blue'
+                                color='#0E6251'
                                 size={20}
                             />
                         )
@@ -255,6 +260,7 @@ const CustomDrawer = (props) => {
                         NestedDrawerItemUnion == true && 
                         <DrawerItem
                             label='Alta de unión'
+                            labelStyle={{color:'#0E6251'}}
                             onPress={
                                 ()=>{props.navigation.navigate('Uniones')}}
                         />
@@ -264,6 +270,7 @@ const CustomDrawer = (props) => {
                         NestedDrawerItemUnion == true && 
                         <DrawerItem
                             label='Listar'
+                            labelStyle={{color:'#0E6251'}}
                             onPress={
                                 ()=>{props.navigation.navigate('ListarUniones')}}
                         />
@@ -277,11 +284,12 @@ const CustomDrawer = (props) => {
                            focus== 1 ? true : false
                         }
                         label='Club'
+                        labelStyle={{color:'#0E6251'}}
                         onPress={HandleNestedClub}
                         icon={()=>(
                             <FontAwesome
                                 name="fort-awesome"
-                                color='blue'
+                                color='#0E6251'
                                 size={20}
                             />
                         )
@@ -292,6 +300,7 @@ const CustomDrawer = (props) => {
                         NestedDrawerItemClub == true && 
                         <DrawerItem
                             label='Alta de Club'
+                            labelStyle={{color:'#0E6251'}}
                             onPress={
                                 ()=>{props.navigation.navigate('Club')}}
                         />
@@ -301,6 +310,7 @@ const CustomDrawer = (props) => {
                         NestedDrawerItemClub == true && 
                         <DrawerItem
                             label='Listar'
+                            labelStyle={{color:'#0E6251'}}
                             onPress={
                                 ()=>{props.navigation.navigate('ListarClubes')}}
                         />
@@ -314,11 +324,12 @@ const CustomDrawer = (props) => {
                            focus== 1 ? true : false
                         }
                         label='Partido'
+                        labelStyle={{color:'#0E6251'}}
                         onPress={HandleNestedPartido}
                         icon={()=>(
                             <FontAwesome
                                 name="soccer-ball-o"
-                                color='blue'
+                                color='#0E6251'
                                 size={20}
                             />
                         )
@@ -329,6 +340,7 @@ const CustomDrawer = (props) => {
                         NestedDrawerItemPartido == true && 
                         <DrawerItem
                             label={(isLoadingPartido) ? 'Cargando..' :'Crear'}
+                            labelStyle={{color:'#0E6251'}}
                             onPress={
                                 ()=>{llamarClubes()}}
                         />
@@ -338,6 +350,7 @@ const CustomDrawer = (props) => {
                         NestedDrawerItemPartido == true && 
                         <DrawerItem
                             label='Listar'
+                            labelStyle={{color:'#0E6251'}}
                             onPress={
                                 ()=>{props.navigation.navigate('PartidoListar')}}
                         />
