@@ -5,8 +5,10 @@ import {
     View, Text, FlatList, Image, TouchableOpacity,StyleSheet,Alert
  } from 'react-native';
 
+ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const ListarClubes = () => {
+
+const ListarClubes = ({navigation}) => {
 
   const [data, setData] =  useState();
 
@@ -38,58 +40,133 @@ const ListarClubes = () => {
     getProdcuts();
   }, [])
 
-  // const handleProducto = () =>{
-  //   navigation.navigate('Create');
-  // }
+  const handleItemDetail = (datos) =>{
 
-  // const handleEdit = (item) =>{
-  //   navigation.navigate('Edit', {item})
-  // }
+    console.log('detalles datos', datos)
+    navigation.navigate('DetalleClubes', {datos});
 
-  
-  const  handleDelete = (item)=>{
+  }
 
+  const handleDeleteItem = (datos) =>{
+    console.log('eliminar datos', datos);
     Alert.alert(
-      `Union ${item.descripcion}`,
-      'Seguro que desea eliminarlo', 
+      `Se eliminara ${datos.acronimo}`,
+      '¿Esta seguro?', 
       [
         { text:"Cancelar", 
           style:'cancel'
         },
-        {
-          text:"Editar", 
-          // onPress: ()=> handleEdit(item)
-          
-        },
         { text:'Si, Eliminar',
-          onPress: ()=>{ firestore().collection('uniones').doc(item.key)
+          onPress: ()=>{ firestore().collection('clubes').doc(datos.key)
           .delete().then(()=>{
               Alert.alert(
-                `${item.descripcion} Eliminado!`)
+                `${datos.acronimo} Eliminado!`)
             }) 
         },
           style:'destructive'
         },
       ]
     );
-  } 
+  }
 
-  const handleItem = ({item}) =>{
+  const handleEditItem = (datos) =>{
+    console.log('edit datos', datos)
+    navigation.navigate('EditarClubes', {datos});
+  }
+const handleItem = ({item}) =>{
 
     return(
-      <TouchableOpacity
-          // onPress={()=>handleDelete(item)}
-          style={{flexDirection:'column', margin:10,alignItems: "center",}}
-        >
-        <Text style={styles.txtDescripcion}>{item.acronimo}</Text>
-          <Text style={styles.textPrecio}>cuit {item.cuit}</Text>
-          <Image
-            style={styles.image}
-            source={{
-              uri: item.logo
+      <View
+        style={{flexDirection:'column', margin:5,alignItems: "center",}}
+      >
+        <View
+          style={{
+          flexDirection:'row',
+          height:50           
             }}
-          />
-      </TouchableOpacity>       
+        >
+        <View
+          style={{
+          width:'25%',
+          backgroundColor:'grey'
+          }}
+        >
+              
+              <Image
+                style={styles.image}
+                source={{
+                  uri: item.logo
+                }}
+              />
+            </View>
+            <View
+              style={{
+                width:'45%',
+                backgroundColor:'grey',
+                justifyContent:'center',                
+              }}
+            >              
+              <Text style={styles.txtDescripcionNombre}>{item.nombre}</Text>
+            </View>
+            <View
+              style={{
+                width:'10%',
+                backgroundColor:'orange',
+                justifyContent:'center',
+                alignItems:'center'
+              }}
+            >
+              <TouchableOpacity
+                onPress={()=>{handleItemDetail(item)}}
+              >
+                <FontAwesome
+                  name="align-justify"
+                  color='white'
+                  size={20}
+                />
+              </TouchableOpacity>
+              
+            </View>
+            <View
+              style={{
+                width:'10%',
+                backgroundColor:'red',
+                justifyContent:'center',
+                alignItems:'center'
+              }}
+            >
+              <TouchableOpacity
+                onPress={()=>{handleDeleteItem(item)}}
+              >
+                <FontAwesome
+                  name="trash-o"
+                  color='white'
+                  size={20}
+                />
+              </TouchableOpacity>
+              
+            </View>
+            <View
+              style={{
+                width:'10%',
+                backgroundColor:'blue',
+                justifyContent:'center',
+                alignItems:'center'                
+              }}
+            >
+              <TouchableOpacity
+                onPress={()=>{handleEditItem(item)}}
+              >
+                <FontAwesome
+                  name="edit"
+                  color='white'
+                  size={20}
+                />
+              </TouchableOpacity>
+              
+            </View>
+          </View>
+      </View>       
     );
 
   }
@@ -130,12 +207,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   image: {
-    width: 200,
-    height: 250,
-    resizeMode : 'contain', // es como el objetfit de css
-    padding:100,
-    marginTop:20,
-    borderRadius: 8,
+    width: '100%',
+    height: '100%',
+    resizeMode : 'stretch', // es como el objetfit de css
+    padding:5,
+    margin:3,
+    borderRadius: 1,
     
   },
   input: {
@@ -170,6 +247,13 @@ const styles = StyleSheet.create({
     txtDescripcion:{
       // backgroundColor:'black',
       color:'white',
-      fontSize:25,
+      fontSize:20,
+    },
+    txtDescripcionNombre:{
+      // backgroundColor:'black',
+      color:'white',
+      fontSize:15,
+      margin:2, 
+      paddingLeft:2
     },
 });

@@ -101,6 +101,7 @@ const RegisterData = ({route, navigation}) => {
         onChangeText={setUser}
         value={user}
         placeholder="email"
+        placeholderTextColor='grey'
       />
       <View
         style={{flexDirection:'row', padding:10}}
@@ -111,6 +112,7 @@ const RegisterData = ({route, navigation}) => {
         value={pass}
         secureTextEntry={showPassword ? false : true}
         placeholder="Contraseña"
+        placeholderTextColor='grey'
       />
       <TouchableOpacity
         onPress={() => {
@@ -134,6 +136,7 @@ const RegisterData = ({route, navigation}) => {
         value={pass2}
         secureTextEntry={showPassword2 ? false : true}
         placeholder="Repita contraseña"
+        placeholderTextColor='grey'
       />
       <TouchableOpacity
         onPress={() => {

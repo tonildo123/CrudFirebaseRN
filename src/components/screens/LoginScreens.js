@@ -5,10 +5,10 @@ import {
   Platform,
   Dimensions,
   View, Text, Image, StyleSheet, SafeAreaView, 
-  TextInput, TouchableOpacity, Alert
+  TextInput, TouchableOpacity, Alert, ActivityIndicator
 } from 'react-native';
 
-import logoImg from '../../assets/vectoricon.png';
+// import logoImg from '../../assets/vectoricon.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -138,7 +138,7 @@ const LoginScreens = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
-        <Image source={logoImg} style={styles.image} />
+        {/* <Image source={logoImg} style={styles.image} /> */}
       </View>
 
       <View>
@@ -157,6 +157,7 @@ const LoginScreens = ({navigation}) => {
               style={styles.input}
               onChangeText={onChangeText}
               placeholder="Email"
+              placeholderTextColor='grey'
               value={text}
             />
           </View>
@@ -176,6 +177,7 @@ const LoginScreens = ({navigation}) => {
               value={number}
               secureTextEntry={showPassword ? false : true}
               placeholder="*********"
+              placeholderTextColor='grey'
               keyboardType="text"
             />
             <TouchableOpacity
@@ -198,7 +200,9 @@ const LoginScreens = ({navigation}) => {
         >
           {
             (loadingData)
-            ?<Text style={styles.textButton}>Cargando..</Text>
+            ?<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size="large" color='white' />
+            </View> 
             :<Text style={styles.textButton}>INICIAR SESION</Text>
           }
           
@@ -209,29 +213,7 @@ const LoginScreens = ({navigation}) => {
           <Text style={styles.textButton}>REGISTRARME</Text>
         </TouchableOpacity>
       </View>
-      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-        <TouchableOpacity style={{paddingHorizontal: 15}}>
-          <Icon name="facebook" size={40} color="#3498DB" />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={{paddingHorizontal: 15}}>
-          <View style={{alignItems: 'center'}}>
-            <Icon name="camera-retro" size={40} color="#E74C3C" />
-            <Text>FACE ID</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={{paddingHorizontal: 15}}>
-          <View style={{alignItems: 'center'}}>
-            <Icon name="expeditedssl" size={40} color="#3498DB" />
-            <Text>PIN</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={{paddingHorizontal: 15}}>
-          <Icon name="google" size={40} color="#FA8072" />
-        </TouchableOpacity>
-      </View>
+      
     </View>
   );
 };
@@ -265,7 +247,7 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: '5%',
     margin: '1%',
-    color: '#05375a',
+    color: 'black',
   },
   button: {
     alignItems: 'center',

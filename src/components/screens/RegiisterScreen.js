@@ -66,12 +66,14 @@ const RegiisterScreen = ({navigation}) => {
           onChangeText={setName}
           value={name}
           placeholder="Nombre"
+          placeholderTextColor='grey'
         />
         <TextInput
           style={styles.input}
           onChangeText={setLastName}
           value={lastName}
           placeholder="Apellido"
+          placeholderTextColor='grey'
         />
 
         <TextInput
@@ -79,6 +81,7 @@ const RegiisterScreen = ({navigation}) => {
           onChangeText={setDocumento}
           value={documento}
           placeholder="Numero de Documento"
+          placeholderTextColor='grey'
         />
 
         <TouchableOpacity onPress={handleContinue} style={styles.button}>

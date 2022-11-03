@@ -12,7 +12,7 @@ import firestore from '@react-native-firebase/firestore';
 import {Calendar} from 'react-native-calendars';
 import {useRoute} from '@react-navigation/native';
 
-const CreatePartido = () => {
+const CreatePartido = ({navigation}) => {
 
   const recibo = useRoute();
   

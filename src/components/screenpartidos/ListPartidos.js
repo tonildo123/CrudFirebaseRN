@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
-
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {
-    View, Text, FlatList, Image, TouchableOpacity,StyleSheet,Alert
+    View, Text, FlatList, TouchableOpacity,StyleSheet,Alert
  } from 'react-native';
 
 
@@ -39,58 +39,188 @@ const ListPartidos = () => {
     getProdcuts();
   }, [])
 
-  // const handleProducto = () =>{
-  //   navigation.navigate('Create');
-  // }
+  const handleItemDetail = (datos) =>{
 
-  // const handleEdit = (item) =>{
-  //   navigation.navigate('Edit', {item})
-  // }
+    console.log('detalles datos', datos)
+    navigation.navigate('DetalleUnion', {datos});
 
-  
-  const handleDelete = (item)=>{
+  }
 
+  const handleDeleteItem = (datos) =>{
+    console.log('eliminar datos', datos);
     Alert.alert(
-      `Partido dirigido por ${item.arbitro}`,
-       
+      `Se eliminara este partido`,
+      '¿Esta seguro?', 
       [
         { text:"Cancelar", 
           style:'cancel'
         },
-        {
-          text:"Editar", 
-          // onPress: ()=> handleEdit(item)
-          
-        },
         { text:'Si, Eliminar',
-          onPress: ()=>{ firestore().collection('partidos').doc(item.key)
+          onPress: ()=>{ firestore().collection('partidos').doc(datos.key)
           .delete().then(()=>{
               Alert.alert(
-                `${item.arbitro} Eliminado!`)
+                `Partido Eliminado!`)
             }) 
         },
           style:'destructive'
         },
       ]
     );
-  } 
+  }
+
+  const handleEditItem = (datos) =>{
+    console.log('edit datos', datos)
+    navigation.navigate('EditarUnion', {datos});
+  }
 
   const handleItem = ({item}) =>{
 
     return(
-      <TouchableOpacity
-          // onPress={
-          //   ()=>handleDelete(item)}
-          style={{flexDirection:'column', margin:10,alignItems: "center",}}
+      <View
+        style={{flexDirection:'column',
+         margin:2,
+         alignItems: "center",}}
+      >
+        <View
+          style={{
+          flexDirection:'row',
+          height:70           
+          }}
         >
-          <Text style={styles.txtDescripcion}>{item.local} VS {item.visitante}</Text>
-          <Text style={styles.textPrecio}>fecha {item.fecha} - hora {item.hora}</Text>
-          <Text style={styles.textPrecio}>Dirigido por {item.arbitro}</Text>
-          
-      </TouchableOpacity>       
+       
+            <View
+              style={{
+                width:'70%',
+                backgroundColor:'#138D75',
+                justifyContent:'center', 
+                flexDirection:'column',               
+              }}
+            >              
+              <View style={{
+                backgroundColor:'#B2BABB',
+                justifyContent:'center',
+                alignItems:'center'}}>
+                <Text style={{
+                  color:'white',
+                  fontSize:17,
+
+                }}>Torneo - sede {item.sede}</Text>
+              </View>
+              <View style={{
+                backgroundColor:'#7DCEA0',
+                // justifyContent:'center',
+                // alignItems:'center',
+                flexDirection:'row',
+                }}>
+                  <View
+                    style={{
+                      width:'45%',
+                      justifyContent:'center',
+                      alignItems:'center',}}
+                  >
+                    <Text
+                    style={{
+                      color:'#283747',
+                      fontSize:17,
+    
+                    }}
+                    >{item.local}</Text>    
+                  </View>
+                  <View
+                    style={{
+                      width:'10%',backgroundColor:'#D0D3D4',
+                      justifyContent:'center',
+                      alignItems:'center',
+                    }}
+                  >
+                    <Text> vs </Text>    
+                  </View>
+                  <View
+                    style={{width:'45%',
+                        justifyContent:'center',
+                        alignItems:'center',
+                    }}>
+                    <Text
+                    style={{
+                      color:'#283747',
+                      fontSize:17,
+    
+                    }}
+                    > {item.visitante}</Text>    
+                  </View>
+                
+              </View>
+              <View style={{
+                backgroundColor:'#27AE60',
+                justifyContent:'center',
+                alignItems:'center'}}>
+                <Text style={{
+                  color:'white',
+                  fontSize:17,}}>{item.fecha} - {item.hora}</Text></View>
+            </View>
+            <View
+              style={{
+                width:'10%',
+                backgroundColor:'orange',
+                justifyContent:'center',
+                alignItems:'center'
+              }}
+            >
+              <TouchableOpacity
+                onPress={()=>{handleItemDetail(item)}}
+              >
+                <FontAwesome
+                  name="align-justify"
+                  color='white'
+                  size={20}
+                />
+              </TouchableOpacity>
+              
+            </View>
+            <View
+              style={{
+                width:'10%',
+                backgroundColor:'red',
+                justifyContent:'center',
+                alignItems:'center'
+              }}
+            >
+              <TouchableOpacity
+                onPress={()=>{handleDeleteItem(item)}}
+              >
+                <FontAwesome
+                  name="trash-o"
+                  color='white'
+                  size={20}
+                />
+              </TouchableOpacity>
+              
+            </View>
+            <View
+              style={{
+                width:'10%',
+                backgroundColor:'blue',
+                justifyContent:'center',
+                alignItems:'center'                
+              }}
+            >
+              <TouchableOpacity
+                onPress={()=>{handleEditItem(item)}}
+              >
+                <FontAwesome
+                  name="edit"
+                  color='white'
+                  size={20}
+                />
+              </TouchableOpacity>
+              
+            </View>
+          </View>
+      </View>       
     );
 
   }
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Lista de Partidos</Text>
@@ -110,7 +240,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor:'grey'
+    backgroundColor:'#138D75'
   },
   title:{
     marginTop: 1,
@@ -125,12 +255,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   image: {
-    width: 200,
-    height: 250,
-    resizeMode : 'contain', // es como el objetfit de css
-    padding:100,
-    marginTop:20,
-    borderRadius: 8,
+    width: '100%',
+    height: '100%',
+    resizeMode : 'cover', // es como el objetfit de css
+    padding:5,
+    margin:3,
+    borderRadius: 1,
     
   },
   input: {
@@ -159,11 +289,19 @@ const styles = StyleSheet.create({
     textPrecio:{
       backgroundColor:'grey',
       color:'white',
-      fontSize:15,
+      fontSize:25,
       
     },
     txtDescripcion:{
+      // backgroundColor:'black',
+      color:'white',
+      fontSize:20,
+    },
+    txtDescripcionNombre:{
+      // backgroundColor:'black',
       color:'white',
       fontSize:15,
+      margin:2, 
+      paddingLeft:2
     },
 });

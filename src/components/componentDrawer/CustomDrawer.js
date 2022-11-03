@@ -1,8 +1,7 @@
-import { View, Text , ImageBackground, Image, Section} from 'react-native';
+import { View, Text , ImageBackground, Image, FlatList} from 'react-native';
 import React,{useState, useEffect} from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { DrawerContentScrollView, DrawerItem, DrawerItemList, DrawerContent } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Drawer} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
@@ -10,7 +9,13 @@ import AllActions from '../../store/actions/AllActions';
 import firestore from '@react-native-firebase/firestore';
 
 
+
 const CustomDrawer = (props) => {
+
+    const currentUser = useSelector(state => state.CurrentUser)
+    let url = '../../assets/portadados.png';
+    let uri = currentUser.user.foto;
+
 
     const dispatch = useDispatch()
     const [NestedDrawerItem, setNestedDrawerItem] = useState(false);
@@ -40,9 +45,7 @@ const CustomDrawer = (props) => {
     }
 
     const handleExit = ()=>{
-        // dispatch(AllActions.UserActions.loginUSer(usuario))
         dispatch(AllActions.UserActions.logoutUSer());
-
     }
 
     const llamarClubes = ()=>{
@@ -76,6 +79,7 @@ const CustomDrawer = (props) => {
         
 
   useEffect(() => {
+    console.log('custom drawer : ', currentUser)
 
     console.log('clubes .... ', data)
 
@@ -83,8 +87,7 @@ const CustomDrawer = (props) => {
     setIsLoadingPartido(false);
     props.navigation.navigate('PartidoAlta', {data})
     }
-    
-    
+       
     
   }, [data])
   
@@ -104,7 +107,7 @@ const CustomDrawer = (props) => {
         
         >
             <ImageBackground
-                source={require('../../assets/portadados.png')}
+                source={require(url)}
                 style={{padding:30,
                         
                 }}
@@ -142,14 +145,18 @@ const CustomDrawer = (props) => {
                     }}
                     >
                         <Image 
-                            source={require('../../assets/avatar.png')}
+                            // source={require('../../assets/avatar.png')}
+                            source={{uri: currentUser.user.foto}}                            
                             style={{
-                                height:80,
-                                width:80, 
+                                height:90,
+                                width:90, 
+                                resizeMode : 'cover',
                                 borderRadius:40,
                                 marginBottom:10,
                             }}
                         />
+                        
+                         
 
                     </View>
                     <View
@@ -164,14 +171,14 @@ const CustomDrawer = (props) => {
                         fontSize:20,
                         fontFamily:'Roboto-Medium'
                     }}
-                >Tony Diaz</Text>
+                >{currentUser.user.nombre} {currentUser.user.apellido}</Text>
                     <Text
                         style={{
                             color:'#fff',
                             // fontSize:18,
                             fontFamily:'Roboto-Regular'
                         }}
-                    >Administrador</Text>
+                    >{currentUser.user.tipo}</Text>
                     <FontAwesome
                         name="check-circle"
                         color='white'
