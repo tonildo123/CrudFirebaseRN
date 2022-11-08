@@ -16,6 +16,8 @@ import EditClub from '../components/screensClubes/EditClub';
 import DetailClub from '../components/screensClubes/DetailClub';
 import EditPartidos from '../components/screenpartidos/EditPartidos';
 import DetailPartido from '../components/screenpartidos/DetailPartido';
+import CreateCampeonatoScreen from '../components/screenCampeonatos/CreateCampeonatoScreen';
+import ListarCampeonatos from '../components/screenCampeonatos/ListarCampeonatos';
 
 
 const Drawer = createDrawerNavigator();
@@ -57,6 +59,8 @@ function NavigationDrawer() {
       <Drawer.Screen name="ListarClubes" component={ListarClubes}/>
       <Drawer.Screen name="EditarClubes" component={EditClub}/>
       <Drawer.Screen name="DetalleClubes" component={DetailClub}/>
+      <Drawer.Screen name="CampeonatoAlta" component={CreateCampeonatoScreen}/>
+      <Drawer.Screen name="CampeonatoListar" component={ListarCampeonatos} />
       <Drawer.Screen name="PartidoAlta" component={CreatePartido}/>
       <Drawer.Screen name="PartidoListar" component={ListPartidos} />
       <Drawer.Screen name="DetallePartido" component={DetailPartido} />

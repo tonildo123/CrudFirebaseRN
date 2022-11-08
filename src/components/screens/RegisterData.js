@@ -15,8 +15,9 @@ import {
   ImageBackground,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-
+import LinearGradient from 'react-native-linear-gradient';
 import auth from '@react-native-firebase/auth';
+import { StyleLoginScreen } from '../../styles/StyleLoginScreen';
 
 const RegisterData = ({route, navigation}) => {
   const apellido = route.params.enviar.apellido;
@@ -156,7 +157,15 @@ const RegisterData = ({route, navigation}) => {
         onPress={() => {
           handleRegister();
         }}>
-        <Text style={styles.textButton}>Continuar</Text>
+          <LinearGradient
+            colors={['#0E6251', '#28B463']}
+            style={StyleLoginScreen.signIn}
+        > 
+        <Text 
+            style={styles.textButton}
+        >Continuar</Text>           
+        </LinearGradient>  
+        
       </TouchableOpacity>
     </View>
   );
@@ -213,18 +222,18 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: '#6A5ACD',
+    // backgroundColor: '#6A5ACD',
     // borderWidth: 4,
     borderRadius: 5,
-    padding: '5%',
-    margin: '5%',
+    // padding: '5%',
+    margin: '3%',
     // fontSize:50,
   },
   textButton: {
-    fontSize: 20,
+    fontSize: 22,
     color: 'white',
     alignItems: 'center',
-    backgroundColor: '#6A5ACD',
-    borderRadius: 10,
+    // backgroundColor: '#6A5ACD',
+    // borderRadius: 10,
   },
 });

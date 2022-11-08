@@ -9,7 +9,8 @@ import {
 // import firestore from '@react-native-firebase/firestore';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import firestore from '@react-native-firebase/firestore';
-
+import LinearGradient from 'react-native-linear-gradient';
+import { StyleLoginScreen } from '../../styles/StyleLoginScreen';
 
 var { height } = Dimensions.get('window');
  
@@ -154,6 +155,7 @@ const login = () =>{
     <View style={styles.container}>
     <View style={[styles.box, styles.box1]}>
       <Button
+        color="#28B463"
         title='Seleccionar una imagen'
         onPress={handleImagen}
       />
@@ -161,7 +163,9 @@ const login = () =>{
     <View style={[styles.box, styles.box1]}>
      <Button
       title='Tomar una fotografia'
+      color="#28B463"
       onPress={handleFoto}
+      
     />
     </View>
     <Image 
@@ -178,9 +182,14 @@ const login = () =>{
        style={styles.button}
        onPress={cargarDataUser}
       >
-        <Text
-        style={styles.textButton}
-        >Registrarme</Text>
+        <LinearGradient
+            colors={['#0E6251', '#28B463']}
+            style={StyleLoginScreen.signIn}
+        > 
+        <Text 
+            style={styles.textButton}
+        >REGISTRARME</Text>           
+        </LinearGradient> 
       </TouchableOpacity>
     </View>
     <View>
@@ -188,9 +197,14 @@ const login = () =>{
        style={styles.button}
        onPress={login}
       >
-        <Text
-        style={styles.textButton}
-        >INICIO - LOGIN</Text>
+        <LinearGradient
+            colors={['#0E6251', '#28B463']}
+            style={StyleLoginScreen.signIn}
+        > 
+        <Text 
+            style={styles.textButton}
+        >INICIO</Text>           
+        </LinearGradient> 
       </TouchableOpacity>
     </View>
   </View> 
@@ -203,15 +217,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+    backgroundColor:'#637571'
     
   },
   box: {
     height: box_height,
   },
   box1: {
-      backgroundColor: '#2196F3',
+      backgroundColor: '#28B463', // 
       borderWidth: 4,
-      borderColor: "#20232a",
+      borderColor: "#0E6251", // 
       borderRadius: 6,
   },
   image: {
@@ -232,11 +247,11 @@ const styles = StyleSheet.create({
       margin:5,
     },
     button: {
-      backgroundColor: '#2196F3',
-      borderWidth: 4,
-      borderColor: "#20232a",
-      borderRadius: 6,      
-      padding:10,
+      // backgroundColor: '#2196F3',
+      borderWidth: 2,
+      // borderColor: "#20232a",
+      borderRadius: 12,      
+      // padding:10,
       width:'100%'
     },
     textButton:{

@@ -5,8 +5,9 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  ImageBackground,
+  SafeAreaView,
   Alert,
+  ScrollView,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
@@ -77,12 +78,10 @@ const ClubScreen = ({navigation}) => {
   }
 
   return (
+    <ScrollView>
     <View style={styles.slide1}>
-      {/* <ImageBackground
-        source={require('../../assets/altas.jpeg')}
-        resizeMode="cover"
-        style={styles.image}> */}
         <Text style={styles.text}>Datos del Club</Text>
+        <SafeAreaView>
         <View>
           <Text style={styles.text2}>Nombre: </Text>
           <TextInput
@@ -127,7 +126,7 @@ const ClubScreen = ({navigation}) => {
         </View>
         <View>
           <Text style={styles.text2}>Domicilio: </Text>
-
+          
           <TextInput
             style={styles.input}
             onChangeText={setDomicilio}
@@ -135,7 +134,9 @@ const ClubScreen = ({navigation}) => {
             placeholderTextColor='grey'
             value={domicilio}
           />
+          
         </View>
+        </SafeAreaView>
 
         {
           (data == undefined)
@@ -146,9 +147,10 @@ const ClubScreen = ({navigation}) => {
             <Text style={styles.textButton}>Continuar</Text>
           </TouchableOpacity>
 
-         }
-      {/* </ImageBackground> */}
+        }
+      
     </View>
+    </ScrollView>
   );
 };
 

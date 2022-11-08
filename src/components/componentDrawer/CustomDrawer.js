@@ -22,6 +22,7 @@ const CustomDrawer = (props) => {
     const [NestedDrawerItemUnion, setNestedDrawerItemUnion] = useState(false);
     const [NestedDrawerItemClub, setNestedDrawerItemClub] = useState(false);
     const [NestedDrawerItemPartido, setNestedDrawerItemPartido] = useState(false);
+    const [NestedDrawerItemCampeonato, setNestedDrawerItemCampeonato] = useState(false);
     const [focus, setFocus] = useState('1');
     const [isLoadingPartido, setIsLoadingPartido] = useState(false);
     const [data, setData] = useState();
@@ -42,6 +43,10 @@ const CustomDrawer = (props) => {
     const HandleNestedPartido = ()=>{
 
         setNestedDrawerItemPartido(!NestedDrawerItemPartido);
+    }
+    const HandleNestedCampeonato = ()=>{
+
+        setNestedDrawerItemCampeonato(!NestedDrawerItemCampeonato);
     }
 
     const handleExit = ()=>{
@@ -87,17 +92,13 @@ const CustomDrawer = (props) => {
     setIsLoadingPartido(false);
     props.navigation.navigate('PartidoAlta', {data})
     }
-       
     
-  }, [data])
-  
-    
-    
+}, [data])
 
-  return (
+return (
     <View style={{
             flex:1,
-         }}>
+    }}>
         <DrawerContentScrollView 
             {...props}
             contentContainerStyle={{
@@ -155,9 +156,6 @@ const CustomDrawer = (props) => {
                                 marginBottom:10,
                             }}
                         />
-                        
-                         
-
                     </View>
                     <View
                     style={{
@@ -200,10 +198,9 @@ const CustomDrawer = (props) => {
                 <Drawer.Section>
                     <DrawerItem
                         focused={
-                           focus== 1 ? true : false
+                        focus== 1 ? true : false
                         }
                         label='Mi Cuenta'
-                        labelStyle={{color:'#0E6251'}}
                         labelStyle={{color:'#0E6251'}}
                         onPress={HandleNested}
                         icon={()=>(
@@ -212,36 +209,46 @@ const CustomDrawer = (props) => {
                                 color='#0E6251'
                                 size={20}
                             />
-                        )
-                            
-                        }
+                        )}
                     />
                     {
                         NestedDrawerItem == true && 
                         <DrawerItem
                             label='Completar datos'
-                            labelStyle={{color:'#0E6251'}}
+                            icon={()=>(
+                                <FontAwesome
+                                    name="check-square-o"
+                                    color='#28B463'
+                                    size={20}
+                                />
+                            )}
+                            labelStyle={{color:'#28B463'}}
                             onPress={
                                 ()=>{props.navigation.navigate('Club')}}
                         />
-                         
                     }
                     {
                         NestedDrawerItem == true && 
                         <DrawerItem
                             label='Validar datos'
-                            labelStyle={{color:'#0E6251'}}
+                            icon={()=>(
+                                <FontAwesome
+                                    name="check-circle"
+                                    color='#28B463'
+                                    size={20}
+                                />
+                            )}
+                            labelStyle={{color:'#28B463'}}
                             onPress={
                                 ()=>{props.navigation.navigate('Club')}}
                         />
-                         
                     }
                     
                 </Drawer.Section>
                 <Drawer.Section>
                     <DrawerItem
                         focused={
-                           focus== 1 ? true : false
+                        focus== 1 ? true : false
                         }
                         label='Uniones'
                         labelStyle={{color:'#0E6251'}}
@@ -252,36 +259,46 @@ const CustomDrawer = (props) => {
                                 color='#0E6251'
                                 size={20}
                             />
-                        )
-                            
-                        }
+                        )}
                     />
                     {
                         NestedDrawerItemUnion == true && 
                         <DrawerItem
                             label='Alta de unión'
-                            labelStyle={{color:'#0E6251'}}
+                            icon={()=>(
+                                <FontAwesome
+                                    name="plus"
+                                    color='#28B463'
+                                    size={20}
+                                />
+                            )}
+                            labelStyle={{color:'#28B463'}}
                             onPress={
                                 ()=>{props.navigation.navigate('Uniones')}}
                         />
-                         
                     }
                     {
                         NestedDrawerItemUnion == true && 
                         <DrawerItem
-                            label='Listar'
-                            labelStyle={{color:'#0E6251'}}
+                            label='Listar Uniones'
+                            icon={()=>(
+                                <FontAwesome
+                                    name="server"
+                                    color='#28B463'
+                                    size={20}
+                                />
+                            )}
+                            labelStyle={{color:'#28B463'}}
                             onPress={
                                 ()=>{props.navigation.navigate('ListarUniones')}}
                         />
-                         
                     }
                     
                 </Drawer.Section>
                 <Drawer.Section>
                     <DrawerItem
                         focused={
-                           focus== 1 ? true : false
+                        focus== 1 ? true : false
                         }
                         label='Club'
                         labelStyle={{color:'#0E6251'}}
@@ -300,28 +317,92 @@ const CustomDrawer = (props) => {
                         NestedDrawerItemClub == true && 
                         <DrawerItem
                             label='Alta de Club'
-                            labelStyle={{color:'#0E6251'}}
+                            icon={()=>(
+                                <FontAwesome
+                                    name="plus"
+                                    color='#28B463'
+                                    size={20}
+                                />
+                            )}
+                            labelStyle={{color:'#28B463'}}
                             onPress={
                                 ()=>{props.navigation.navigate('Club')}}
                         />
-                         
                     }
                     {
                         NestedDrawerItemClub == true && 
                         <DrawerItem
-                            label='Listar'
-                            labelStyle={{color:'#0E6251'}}
+                            label='Listar Clubes'
+                            icon={()=>(
+                                <FontAwesome
+                                    name="server"
+                                    color='#28B463'
+                                    size={20}
+                                />
+                            )}
+                            labelStyle={{color:'#28B463'}}
                             onPress={
                                 ()=>{props.navigation.navigate('ListarClubes')}}
                         />
-                         
                     }
                     
                 </Drawer.Section>
                 <Drawer.Section>
                     <DrawerItem
                         focused={
-                           focus== 1 ? true : false
+                        focus== 1 ? true : false
+                        }
+                        label='Campeonato'
+                        labelStyle={{color:'#0E6251'}}
+                        onPress={HandleNestedCampeonato}
+                        icon={()=>(
+                            <FontAwesome
+                                name="gamepad"
+                                color='#0E6251'
+                                size={20}
+                            />
+                        )
+                            
+                        }
+                    />
+                    {
+                        NestedDrawerItemCampeonato == true && 
+                        <DrawerItem
+                            label='Crear Campeonato'
+                            icon={()=>(
+                                <FontAwesome
+                                    name="plus"
+                                    color='#28B463'
+                                    size={20}
+                                />
+                            )}
+                            labelStyle={{color:'#28B463'}}
+                            onPress={
+                                ()=>{props.navigation.navigate('CampeonatoAlta')}}
+                        />
+                    }
+                    {
+                        NestedDrawerItemCampeonato == true && 
+                        <DrawerItem
+                            label='Listar Campeonatos'
+                            labelStyle={{color:'#28B463'}}
+                            icon={()=>(
+                                <FontAwesome
+                                    name="server"
+                                    color='#28B463'
+                                    size={20}
+                                />
+                            )}
+                            onPress={
+                                ()=>{props.navigation.navigate('CampeonatoListar')}}
+                        />
+                    }
+                    
+                </Drawer.Section>   
+                <Drawer.Section>
+                    <DrawerItem
+                        focused={
+                        focus== 1 ? true : false
                         }
                         label='Partido'
                         labelStyle={{color:'#0E6251'}}
@@ -339,30 +420,41 @@ const CustomDrawer = (props) => {
                     {
                         NestedDrawerItemPartido == true && 
                         <DrawerItem
-                            label={(isLoadingPartido) ? 'Cargando..' :'Crear'}
-                            labelStyle={{color:'#0E6251'}}
+                            label={(isLoadingPartido) ? 'Cargando..' :'Crear Partido'}
+                            labelStyle={{color:'#28B463'}}
+                            icon={()=>(
+                                <FontAwesome
+                                    name="plus"
+                                    color='#28B463'
+                                    size={20}
+                                />
+                            )}
                             onPress={
                                 ()=>{llamarClubes()}}
                         />
-                         
                     }
                     {
                         NestedDrawerItemPartido == true && 
                         <DrawerItem
-                            label='Listar'
-                            labelStyle={{color:'#0E6251'}}
+                            label='Listar partidos'
+                            labelStyle={{color:'#28B463'}}
+                            icon={()=>(
+                                <FontAwesome
+                                    name="server"
+                                    color='#28B463'
+                                    size={20}
+                                />
+                            )}
                             onPress={
                                 ()=>{props.navigation.navigate('PartidoListar')}}
                         />
-                         
                     }
                     
-                </Drawer.Section>    
+                </Drawer.Section>   
             </View>
             
                 
-        </DrawerContentScrollView>
-         
+        </DrawerContentScrollView>         
         <View
             style={{
                 padding:10,
@@ -392,15 +484,13 @@ const CustomDrawer = (props) => {
                         size={20}
                     />       
                 <Text style={{paddingHorizontal:20, color:'black'}}>Salir</Text>
-        </View>
-      
+                </View>
             </TouchableOpacity>
-           
             
         </View>
         
     </View>
-  )
+)
 }
 
 export default CustomDrawer

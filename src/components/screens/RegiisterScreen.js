@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
+import { StyleLoginScreen } from '../../styles/StyleLoginScreen';
+import LinearGradient from 'react-native-linear-gradient';
 
 
 const RegiisterScreen = ({navigation}) => {
@@ -83,9 +85,17 @@ const RegiisterScreen = ({navigation}) => {
           placeholder="Numero de Documento"
           placeholderTextColor='grey'
         />
-
-        <TouchableOpacity onPress={handleContinue} style={styles.button}>
-          <Text style={styles.textButton}>Continuar</Text>
+        <TouchableOpacity onPress={handleContinue} 
+        style={styles.button}
+        >
+        <LinearGradient
+            colors={['#0E6251', '#28B463']}
+            style={StyleLoginScreen.signIn}
+        > 
+        <Text 
+            style={styles.textButton}
+        >Continuar</Text>           
+        </LinearGradient>          
         </TouchableOpacity>
       </View>
     </View>
@@ -133,19 +143,19 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: '#6A5ACD',
+    // backgroundColor: '#6A5ACD',
     // borderWidth: 4,
     borderRadius: 5,
-    padding: '5%',
-    margin: '5%',
+    // padding: '5%',
+    margin: '2%',
     // fontSize:50,
   },
   textButton: {
-    fontSize: 20,
+    fontSize: 22,
     color: 'white',
     alignItems: 'center',
-    backgroundColor: '#6A5ACD',
-    borderRadius: 10,
+    // backgroundColor: '#6A5ACD',
+    borderRadius: 15,
   },
 });
 

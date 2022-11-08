@@ -230,7 +230,10 @@ const LoginScreens = ({navigation}) => {
 style={{flexDirection:'row',justifyContent:'space-evenly'}}
 >
 <TouchableOpacity
-   onPress={() => { navigation.navigate('recuperarPassword') }}>
+   onPress={() => { 
+    // navigation.navigate('recuperarPassword') 
+    Alert.alert('Seccion en mantenimiento!');
+    }}>
     <Text style={{ 
       color: 'red' ,
       marginTop: 15 
