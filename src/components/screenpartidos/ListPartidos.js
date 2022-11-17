@@ -6,11 +6,20 @@ import {
  } from 'react-native';
  import {useRoute} from '@react-navigation/native';
 import { DrawerItemList } from '@react-navigation/drawer';
+import Moment from 'moment';
 
-const ListPartidos = ({navigation}) => {
+const ListPartidos = ({navigation}) => {  
 
-  const recibo = useRoute();
   
+
+  var moment = require('moment');
+  moment.locale('ar');
+  var fecha = moment().format("DD/MM/YYYY"); 
+  var hora = moment.utc().add('hours',-3).format('HH:mm');
+  
+  
+
+  const recibo = useRoute();  
   const clubes = recibo.params.data;
   const torneo = recibo.params.torneos;
   const [data, setData] =  useState();
@@ -39,7 +48,11 @@ const ListPartidos = ({navigation}) => {
   
   useEffect(() => {
     getProdcuts();
+    console.log(fecha);
+    console.log(hora);
 
+    console.log('clubes ', JSON.stringify(recibo.params.data))
+    console.log('torneos ', JSON.stringify(recibo.params.torneos))
   }, [])
 
   const handleItemDetail = (datos) =>{
@@ -53,7 +66,7 @@ const ListPartidos = ({navigation}) => {
     console.log('local ', JSON.stringify(local, null, 4));
     console.log('visita ', JSON.stringify(visita, null, 4));
 
-    navigation.navigate('DetallePartido', {datos, local, visita});
+    navigation.navigate('DetallePartido', {datos, local, visita, torneo, clubes});
 
   }
 
@@ -83,7 +96,9 @@ const ListPartidos = ({navigation}) => {
     console.log('edit datos', datos)
     navigation.navigate('DetallePartido', {datos});
   }
-
+  const updateEstado = (item) =>{
+    console.log('actualizar estado', JSON.stringify(item, null, 4))
+  }
   const handleItem = ({item}) =>{
 
     return(
@@ -118,6 +133,11 @@ const ListPartidos = ({navigation}) => {
                     color:'white',
                     fontSize:17,
                     }}>{item.torneo} - Estado </Text>
+                    {
+                      
+                      // (new Date(fecha) > item.fecha) ? null :  ( new Date(fecha) == item.fecha && new Date(hora) > item.hora ) ? null :updateEstado(item)
+
+                    }
                     <FontAwesome
                     name="circle"
                     color={item.estado == 'pendiente' ? 'white' : item.estado == 'terminado' ? '#5DADE2' : item.estado == 'suspendido' ? 'CB4335' : item.estado == 'en curso' ? '28B463' : 'white'}
@@ -295,7 +315,6 @@ const ListPartidos = ({navigation}) => {
           flexDirection:'row',
           width:'25%'
         }}>
-          
           <FontAwesome
             name="circle"
             color='#28B463'
@@ -307,7 +326,6 @@ const ListPartidos = ({navigation}) => {
         </View>
       </View>
       <FlatList 
-        // key={data}
         data={data}
         renderItem={handleItem}
         keyExtractor={item => item.id}

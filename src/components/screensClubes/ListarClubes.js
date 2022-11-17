@@ -5,13 +5,14 @@ import {
     View, Text, FlatList, Image, TouchableOpacity,StyleSheet,Alert
  } from 'react-native';
  import LinearGradient from 'react-native-linear-gradient';
-
+ 
  import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { StyleLoginScreen } from '../../styles/StyleLoginScreen';
 
 
 const ListarClubes = ({navigation}) => {
 
+  
   const [data, setData] =  useState();
 
   const getProdcuts = async () =>{
@@ -40,12 +41,14 @@ const ListarClubes = ({navigation}) => {
   
   useEffect(() => {
     getProdcuts();
+
+    
   }, [])
 
   const handleItemDetail = (datos) =>{
 
     console.log('detalles datos', datos)
-    navigation.navigate('DetalleClubes', {datos});
+    navigation.navigate('DetalleClubes', {datos, });
 
   }
 
