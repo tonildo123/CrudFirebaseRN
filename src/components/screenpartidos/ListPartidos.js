@@ -4,11 +4,15 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {
     View, Text, FlatList, TouchableOpacity,StyleSheet,Alert
  } from 'react-native';
+ import {useRoute} from '@react-navigation/native';
+import { DrawerItemList } from '@react-navigation/drawer';
 
+const ListPartidos = ({navigation}) => {
 
-const ListPartidos = () => {
-
+  const recibo = useRoute();
   
+  const clubes = recibo.params.data;
+  const torneo = recibo.params.torneos;
   const [data, setData] =  useState();
 
   const getProdcuts = async () =>{
@@ -23,8 +27,6 @@ const ListPartidos = () => {
               ...documentSnapshot.data(),
               key: documentSnapshot.id 
             })
-              
-
           }
         )
         setData(partidos);
@@ -37,12 +39,21 @@ const ListPartidos = () => {
   
   useEffect(() => {
     getProdcuts();
+
   }, [])
 
   const handleItemDetail = (datos) =>{
 
-    console.log('detalles datos', datos)
-    navigation.navigate('DetalleUnion', {datos});
+    // console.log('Torneo', JSON.stringify(torneo, null, 4));
+    // console.log('club', JSON.stringify(clubes, null, 4));
+    // console.log('datos ', JSON.stringify(datos, null, 4));
+    
+    const local = clubes.filter(item => item.key == datos.datos_local.key)
+    const visita = clubes.filter(item => item.key == datos.datos_visita.key)
+    console.log('local ', JSON.stringify(local, null, 4));
+    console.log('visita ', JSON.stringify(visita, null, 4));
+
+    navigation.navigate('DetallePartido', {datos, local, visita});
 
   }
 
@@ -70,16 +81,17 @@ const ListPartidos = () => {
 
   const handleEditItem = (datos) =>{
     console.log('edit datos', datos)
-    navigation.navigate('EditarUnion', {datos});
+    navigation.navigate('DetallePartido', {datos});
   }
 
   const handleItem = ({item}) =>{
 
     return(
       <View
+        // key={item.key}
         style={{flexDirection:'column',
-         margin:2,
-         alignItems: "center",}}
+        margin:2,
+        alignItems: "center",}}
       >
         <View
           style={{
@@ -87,8 +99,7 @@ const ListPartidos = () => {
           height:70           
           }}
         >
-       
-            <View
+        <View
               style={{
                 width:'70%',
                 backgroundColor:'#138D75',
@@ -100,16 +111,23 @@ const ListPartidos = () => {
                 backgroundColor:'#B2BABB',
                 justifyContent:'center',
                 alignItems:'center'}}>
-                <Text style={{
-                  color:'white',
-                  fontSize:17,
-
-                }}>Torneo - sede {item.sede}</Text>
+                  <View
+                  style={{flexDirection:'row'}}
+                  >
+                   <Text style={{
+                    color:'white',
+                    fontSize:17,
+                    }}>{item.torneo} - Estado </Text>
+                    <FontAwesome
+                    name="circle"
+                    color={item.estado == 'pendiente' ? 'white' : item.estado == 'terminado' ? '#5DADE2' : item.estado == 'suspendido' ? 'CB4335' : item.estado == 'en curso' ? '28B463' : 'white'}
+                    size={20}
+                    />
+                  </View>
+                
               </View>
               <View style={{
                 backgroundColor:'#7DCEA0',
-                // justifyContent:'center',
-                // alignItems:'center',
                 flexDirection:'row',
                 }}>
                   <View
@@ -121,10 +139,9 @@ const ListPartidos = () => {
                     <Text
                     style={{
                       color:'#283747',
-                      fontSize:17,
-    
+                      fontSize:17,    
                     }}
-                    >{item.local}</Text>    
+                    >{item.local}  {item.goles_local}</Text>    
                   </View>
                   <View
                     style={{
@@ -143,12 +160,10 @@ const ListPartidos = () => {
                     <Text
                     style={{
                       color:'#283747',
-                      fontSize:17,
-    
+                      fontSize:17,    
                     }}
-                    > {item.visitante}</Text>    
-                  </View>
-                
+                    >{item.goles_visita} {item.visitante}</Text>    
+                  </View>                
               </View>
               <View style={{
                 backgroundColor:'#27AE60',
@@ -156,11 +171,12 @@ const ListPartidos = () => {
                 alignItems:'center'}}>
                 <Text style={{
                   color:'white',
-                  fontSize:17,}}>{item.fecha} - {item.hora}</Text></View>
+                  fontSize:15,}}>{item.fecha} - {item.hora} - sede : {item.sede}</Text></View>
             </View>
             <View
               style={{
                 width:'10%',
+                height:'100%',
                 backgroundColor:'orange',
                 justifyContent:'center',
                 alignItems:'center'
@@ -174,12 +190,12 @@ const ListPartidos = () => {
                   color='white'
                   size={20}
                 />
-              </TouchableOpacity>
-              
+              </TouchableOpacity>              
             </View>
             <View
               style={{
                 width:'10%',
+                height:'100%',
                 backgroundColor:'red',
                 justifyContent:'center',
                 alignItems:'center'
@@ -193,12 +209,12 @@ const ListPartidos = () => {
                   color='white'
                   size={20}
                 />
-              </TouchableOpacity>
-              
+              </TouchableOpacity>              
             </View>
             <View
               style={{
                 width:'10%',
+                height:'100%',
                 backgroundColor:'blue',
                 justifyContent:'center',
                 alignItems:'center'                
@@ -224,7 +240,74 @@ const ListPartidos = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Lista de Partidos</Text>
+      <View 
+        style={{
+          flexDirection:'row',
+        }}
+      >
+        <View 
+        style={{
+          flexDirection:'row',
+          width:'25%'
+        }}>
+          
+          <FontAwesome
+            name="circle"
+            color='white'
+            size={20}
+          />
+          <Text
+          style={styles.textEstado}
+          >Pendiente</Text>
+        </View>
+        <View 
+        style={{
+          flexDirection:'row',
+          width:'25%'
+        }}>
+          
+          <FontAwesome
+            name="circle"
+            color='#5DADE2'
+            size={20}
+          />
+          <Text
+          style={styles.textEstado}
+          >Terminado</Text>
+        </View>
+        <View 
+        style={{
+          flexDirection:'row',
+          width:'25%'
+        }}>
+          
+          <FontAwesome
+            name="circle"
+            color='#CB4335'
+            size={20}
+          />
+          <Text
+          style={styles.textEstado}
+          >Suspendido</Text>
+        </View>
+        <View 
+        style={{
+          flexDirection:'row',
+          width:'25%'
+        }}>
+          
+          <FontAwesome
+            name="circle"
+            color='#28B463'
+            size={20}
+          />
+          <Text
+          style={styles.textEstado}
+          >En curso</Text>
+        </View>
+      </View>
       <FlatList 
+        // key={data}
         data={data}
         renderItem={handleItem}
         keyExtractor={item => item.id}
@@ -304,4 +387,7 @@ const styles = StyleSheet.create({
       margin:2, 
       paddingLeft:2
     },
+    textEstado:{
+      color:'white',
+    }
 });

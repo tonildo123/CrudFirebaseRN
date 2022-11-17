@@ -6,6 +6,8 @@ import {
      Image, TouchableOpacity,StyleSheet,Alert
      ,ActivityIndicator
  } from 'react-native';
+ import LinearGradient from 'react-native-linear-gradient';
+import { StyleLoginScreen } from '../../styles/StyleLoginScreen';
 
 
 const ListarUniones = ({navigation}) => {
@@ -79,6 +81,7 @@ const ListarUniones = ({navigation}) => {
 
     return(
       <View
+        key={item.key}
         style={{flexDirection:'column', margin:5,alignItems: "center",}}
       >
         <View
@@ -151,7 +154,7 @@ const ListarUniones = ({navigation}) => {
             <View
               style={{
                 width:'10%',
-                backgroundColor:'blue',
+                backgroundColor:'#76448A',
                 justifyContent:'center',
                 alignItems:'center'                
               }}
@@ -182,8 +185,18 @@ const ListarUniones = ({navigation}) => {
             ?<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <ActivityIndicator size="large" color='white' />
             </View> 
-            :<View>
+            :<View style={{
+              // borderWidth: 4,
+              // borderColor: "#20232a",
+              // borderRadius: 6,
+            }}
+              >
+              <LinearGradient
+            colors={['#28B463', '#0E6251']}
+            style={StyleLoginScreen.signIn}
+            >
             <Text style={styles.title}>Lista de Uniones</Text>
+            </LinearGradient>
             <FlatList 
               data={data}
               renderItem={handleItem}
@@ -207,11 +220,11 @@ const styles = StyleSheet.create({
   },
   title:{
     marginTop: 1,
-    paddingVertical: 8,
-    borderWidth: 4,
-    borderColor: "#20232a",
+    // paddingVertical: 8,
+    // borderWidth: 4,
+    // borderColor: "#20232a",
     borderRadius: 6,
-    backgroundColor: "#283747",
+    // backgroundColor: "#283747",
     color: "white",
     textAlign: "center",
     fontSize: 30,

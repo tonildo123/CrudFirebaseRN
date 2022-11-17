@@ -16,9 +16,11 @@ import {useRoute} from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-datepicker';
 import firestore from '@react-native-firebase/firestore';
+import LinearGradient from 'react-native-linear-gradient';
 import Moment from 'moment';
 import {useSelector, useDispatch} from 'react-redux';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import { StyleLoginScreen } from '../../styles/StyleLoginScreen';
 
 const ClubeScreen2 = ({navigation}) => {
   const currentUser = useSelector(state => state.CurrentUser);
@@ -32,28 +34,19 @@ const ClubeScreen2 = ({navigation}) => {
   const cuit = recibi.cuit;
   const telefono = recibi.telefono;
   const domicilio = recibi.domicilio;
+  const pais=recibi.pais;
+  const provincia=recibi.provincia;
 
   const [showfecha, setShowFecha] = useState(false); // timepicker
   const [fecha, setFecha] = useState(null); // timepicker
   const [deporte, setDeporte] = useState([{label: 'Rugby', value: 132}]); // dropdown
   const [itemDeporte, setItemDeporte] = useState('');
-  const [pais, setPais] = useState([{label: 'Argentina', value: '456'}]); //dropdown
-  const [itemPais, setItemPais] = useState('');
-  const [provincia, setProvincia] = useState([
-    {label: 'Tucuman', value: 1},
-    {label: 'Catamarca', value: 2},
-    {label: 'Salta', value: 3},
-  ]); //dropdown
-  const [itemProvincia, setItemProvincia] = useState('');
+ 
   const [logo, setLogo] = useState('https://via.placeholder.com/200'); // seleccionar imagen
   
   ///////////////////////////
   const [openDeporte, setOpenDeporte] = useState(false);
   const [valuedep, setValueDep] = useState(null);
-  const [openPro, setOpenProv] = useState(false);
-  const [valueProv, setValuePrv] = useState(null);
-  const [openPais, setOpenPais] = useState(false);
-  const [valuePais, setValuePais] = useState(null);
   const [isLoading,setIsLoading ] = useState(false);
 
 
@@ -85,7 +78,7 @@ const ClubeScreen2 = ({navigation}) => {
 
     const items = []
     recibiuniones.map(item => {
-        items.push({ label: item.acronimo, value: item.idUnion })
+        items.push({ label: item.nombre, value: item.idUnion })
     })
 
     setListaUniones(items)
@@ -110,8 +103,8 @@ const ClubeScreen2 = ({navigation}) => {
     console.log('domicilio', domicilio);
     console.log('fecha', fecha.day + '/' + fecha.month + '/' + fecha.year);
     console.log('deporte', itemDeporte);
-    console.log('pais', itemPais);
-    console.log('provincia', itemProvincia);
+    console.log('pais', pais);
+    console.log('provincia', provincia);
     console.log('logo', logo);
     handleContinue();
   };
@@ -129,8 +122,9 @@ const ClubeScreen2 = ({navigation}) => {
           domicilio: domicilio,
           fechaIn: fecha.day + '/' + fecha.month + '/' + fecha.year,
           deporte: itemDeporte,
-          pais: itemPais,
-          provincia: itemProvincia,
+          pais: pais,
+          puntos:0,
+          provincia: provincia,
           logo: logo,
         });
     } catch (error) {
@@ -189,7 +183,7 @@ const ClubeScreen2 = ({navigation}) => {
         <Text style={styles.text}>Ultimo paso</Text>
         <TouchableOpacity
           style={{
-            backgroundColor: '#6A5ACD',
+            // backgroundColor: '#6A5ACD',
             borderRadius: 15,
             marginVertical: 20,
             padding: 10,
@@ -199,12 +193,17 @@ const ClubeScreen2 = ({navigation}) => {
           onPress={() => {
             setShowFecha(!showfecha);
           }}>
-          <Text style={{fontSize: 24, color: 'white'}}>
+            <LinearGradient
+            colors={['#0E6251', '#28B463']}
+            style={StyleLoginScreen.signIn}
+            >
+          <Text style={{fontSize: 24, color: 'white', fontWeight: 'bold',}}>
           {
               (fecha == undefined)
               ? 'FECHA DE INAUGURACION' : `${fecha.day<10 ? '0'+fecha.day: fecha.day}/${fecha.month<10 ? '0'+fecha.month: fecha.month}/${fecha.year} `
          }
           </Text>
+          </LinearGradient>
         </TouchableOpacity>
         <Modal visible={showfecha} animationType="fade">
           <Calendar
@@ -216,8 +215,8 @@ const ClubeScreen2 = ({navigation}) => {
             }}
           />
         </Modal>
-        <View style={{flexDirection: 'row', padding: 10}}>
-          <View style={{width: '33%'}}>
+        <View style={{flexDirection: 'row'}}>
+          <View style={{width: '100%'}}>
             <DropDownPicker
               placeholder="Deporte"
               open={openDeporte}
@@ -230,35 +229,10 @@ const ClubeScreen2 = ({navigation}) => {
               }}
             />
           </View>
-          <View style={{width: '34%'}}>
-            <DropDownPicker
-              placeholder="Pais"
-              open={openPais}
-              value={valuePais}
-              items={pais}
-              setOpen={setOpenPais}
-              setValue={setValuePais}
-              onSelectItem={item => {
-                setItemPais(item.label);
-              }}
-            />
-          </View>
-          <View style={{width: '33%'}}>
-            <DropDownPicker
-              placeholder="Provincia"
-              open={openPro}
-              value={valueProv}
-              items={provincia}
-              setOpen={setOpenProv}
-              setValue={setValuePrv}
-              onSelectItem={item => {
-                setItemProvincia(item.label);
-              }}
-            />
-          </View>
+          
         </View>
         <View style={{margin: '3%'}}>
-          <Button title="Seleccionar una imagen" onPress={handleImagen} />
+          <Button title="Seleccionar una imagen" onPress={handleImagen} color="#28B463"/>
           <Image
             style={{
               alignSelf: 'center',
@@ -283,11 +257,16 @@ const ClubeScreen2 = ({navigation}) => {
         </View>
 
         <TouchableOpacity onPress={PreContinue} style={styles.button}>
+        <LinearGradient
+            colors={['#0E6251', '#28B463']}
+            style={StyleLoginScreen.signIn}
+            >
           {isLoading ? (
             <Text style={styles.textButton}>Cargando...</Text>
           ) : (
             <Text style={styles.textButton}>Continuar</Text>
           )}
+          </LinearGradient>
         </TouchableOpacity>
       </ImageBackground>
     </View>
@@ -340,18 +319,19 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: '#6A5ACD',
+    // backgroundColor: '#6A5ACD',
     // borderWidth: 4,
     borderRadius: 5,
     padding: '5%',
-    margin: '5%',
+    // margin: '5%',
     // fontSize:50,
   },
   textButton: {
     fontSize: 20,
     color: 'white',
     alignItems: 'center',
-    backgroundColor: '#6A5ACD',
+    // backgroundColor: '#6A5ACD',
+    fontWeight: 'bold',
     borderRadius: 10,
   },
 });

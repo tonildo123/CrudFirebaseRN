@@ -4,6 +4,10 @@ import {
   TouchableOpacity,
   ImageBackground, 
 } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { ScrollView } from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
+import { StyleLoginScreen } from '../../styles/StyleLoginScreen';
 
 const UnionesScreen = ({navigation}) => {
 
@@ -12,6 +16,23 @@ const UnionesScreen = ({navigation}) => {
     const [cuit, setCuit] = useState(''); 
     const [telefono, setTelefono] = useState(''); 
     const [domicilio, setDomicilio] = useState(""); 
+
+    //// dropdown pais y provincia
+    const [pais, setPais] = useState([
+      {label:'Argentina', value:'456'}
+  ]); //dropdown
+  const [itemPais, setItemPais] = useState('');
+  const [provincia, setProvincia] = useState([
+      {label:'Tucuman', value:1},
+      {label:'Catamarca', value:2},
+      {label:'Salta', value:3},
+  ]); //dropdown
+  const [itemProvincia, setItemProvincia] = useState('');
+
+  const [openPro, setOpenProv] = useState(false);
+  const [valueProv, setValuePrv] = useState(null);
+  const [openPais, setOpenPais] = useState(false);
+  const [valuePais, setValuePais] = useState(null);
 
     
 
@@ -36,6 +57,8 @@ const loadingData = ()=>{
     cuit:cuit ,
     telefono:telefono,
     domicilio:domicilio,
+    pais:itemPais,
+    provincia:itemProvincia,
 
   }
 
@@ -46,19 +69,19 @@ const loadingData = ()=>{
 
   return (
     <View style={styles.slide1}>
-        
+      <ScrollView>       
       <Text style={styles.text}>Datos de la Union</Text>
       <TextInput
         style={styles.input}
-        placeholder='NOMBRE'
-        placeholderTextColor='white'
+        placeholder='NOMBRE/S'
+        placeholderTextColor='grey'
         onChangeText={setName}
         value={name}
       />
       <TextInput
         style={styles.input}
         placeholder='ACRONIMO'
-        placeholderTextColor='white'
+        placeholderTextColor='grey'
         onChangeText={setAcronimo}
         value={acronimo}
       />
@@ -66,14 +89,14 @@ const loadingData = ()=>{
       <TextInput
         style={styles.input}
         placeholder='CUIT'
-        placeholderTextColor='white'
+        placeholderTextColor='grey'
         onChangeText={setCuit}
         value={cuit}
       />
       <TextInput
         style={styles.input}
         placeholder='TELEFONO'
-        placeholderTextColor='white'
+        placeholderTextColor='grey'
         onChangeText={setTelefono}
         value={telefono}
       />
@@ -81,17 +104,49 @@ const loadingData = ()=>{
       <TextInput
         style={styles.input}
         placeholder='DOMICILIO'
-        placeholderTextColor='white'
+        placeholderTextColor='grey'
         onChangeText={setDomicilio}
         value={domicilio}
       />
+
+      <View style={{flexDirection:'row', padding:10}}>
+      <View style={{width:'50%'}}>
+          <DropDownPicker
+          placeholder="Pais"
+          open={openPais}
+          value={valuePais}
+          items={pais}
+          setOpen={setOpenPais}
+          setValue={setValuePais}
+          onSelectItem={(item)=>{setItemPais(item.label)}}
+          />
+        </View>
+        <View style={{width:'50%'}}>
+            <DropDownPicker
+            placeholder="Provincia"
+            open={openPro}
+            value={valueProv}
+            items={provincia}
+            setOpen={setOpenProv}
+            setValue={setValuePrv}
+            onSelectItem={(item)=>{setItemProvincia(item.label)}}
+            />
+        </View>
+      </View>
 
       <TouchableOpacity
         onPress={handleContinue}
         style={styles.button}
       >
-        <Text style={styles.textButton}>Continuar</Text>
+       <LinearGradient
+            colors={['#0E6251', '#28B463']}
+            style={StyleLoginScreen.signIn}
+        >
+          <Text style={[StyleLoginScreen .textSign, { color: 'black'}]}>CONTINUAR</Text>
+                
+        </LinearGradient>
       </TouchableOpacity>
+      </ScrollView>
     </View>
   )
 }
@@ -105,13 +160,13 @@ const styles = StyleSheet.create({
         margin: 12,
         borderWidth: 1,
         padding: 10,
-        color:'white',
+        color:'black',
         fontSize:15
       },
     slide1: {
       flex: 1,
       paddingTop:20,
-      backgroundColor: 'grey'
+      backgroundColor: '#D7DBDD'
     },
     slide2: {
       flex: 1,
@@ -132,15 +187,16 @@ const styles = StyleSheet.create({
       backgroundColor: 'grey'
       },
     text: {
-      color: 'white',
+      color: 'black',
       fontSize: 30,
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      alignSelf:'center',
     }, 
     button: {
       alignItems: "center",
-      backgroundColor: "#85929E",    
+      // backgroundColor: "#85929E",    
       borderRadius: 10,
-      padding:20,
+      // padding:20,
       margin:10,
     },
     textButton:{

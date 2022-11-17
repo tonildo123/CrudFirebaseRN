@@ -11,14 +11,13 @@ import {
   import { useTheme } from '@react-navigation/native';
   import * as Animatable from 'react-native-animatable';
   import LinearGradient from 'react-native-linear-gradient';
-
+  import NetInfo from "@react-native-community/netinfo";
 // import logoImg from '../../assets/vectoricon.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import fondo from '../../assets/fondo.jpg'
 import auth from '@react-native-firebase/auth';
-
 import {useSelector, useDispatch} from 'react-redux';
 import AllActions from '../../store/actions/AllActions';
 import firestore from '@react-native-firebase/firestore';
@@ -35,14 +34,22 @@ const LoginScreens = ({navigation}) => {
   const [validatePassword, setValidatePassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
+  const [hayInternet, setHayInternet] = useState(false);
 
   const currentUser = useSelector(state => state.CurrentUser)
   const dispatch = useDispatch()
 
   useEffect(() => {
     
-    // dispatch(AllActions.UserActions.loginUSer(text))
-    console.log('user actual ', currentUser);
+    // Subscribe
+const unsubscribe = NetInfo.addEventListener(state => {
+  console.log("Connection type", state.type);
+  console.log("Is connected?", state.isConnected);
+  setHayInternet(state.isConnected)
+});
+
+// Unsubscribe
+unsubscribe();
 
   }, [])
 
@@ -52,14 +59,14 @@ const LoginScreens = ({navigation}) => {
 
     setLoadingData(true)
 
-    console.log('user', text)
-    console.log('pass', number)
+    // console.log('user', text)
+    // console.log('pass', number)
 
     auth()
     .signInWithEmailAndPassword(text, number)
     .then((resp) => {
-      console.log('Log in ', JSON.stringify(resp, null, 3));
-      console.log('id user ', resp.user.uid);
+      // console.log('Log in ', JSON.stringify(resp, null, 3));
+      // console.log('id user ', resp.user.uid);
       const id = resp.user.uid
       getUser(id);
     })
@@ -91,7 +98,7 @@ const LoginScreens = ({navigation}) => {
       id: doc.id,
       ...doc.data(),
     }));
-    console.log("Toda la colección  ", JSON.stringify(data, null, 3));
+    // console.log("Toda la colección  ", JSON.stringify(data, null, 3));
     pasarPantalla(data, idUSer)
     
   }).catch((error)=>{
@@ -104,8 +111,8 @@ const LoginScreens = ({navigation}) => {
 
   const pasarPantalla = (array, idDato) =>{
 
-    console.log('llega data', array)
-    console.log('llega id', idDato)
+    // console.log('llega data', array)
+    // console.log('llega id', idDato)
 
     let user = array.filter(number =>  number.idUsuario == idDato );
     console.log(user[0].nombre); 
@@ -122,7 +129,7 @@ const LoginScreens = ({navigation}) => {
      
     };
 
-    console.log('user final', JSON.stringify(usuario, null, 4) ); 
+    // console.log('user final', JSON.stringify(usuario, null, 4) ); 
     setLoadingData(false)
     dispatch(AllActions.UserActions.loginUSer(usuario))
 
@@ -257,7 +264,11 @@ style={{flexDirection:'row',justifyContent:'space-evenly'}}
 <View style={StyleLoginScreen.button}>
     <TouchableOpacity
         style={StyleLoginScreen.signIn}
-         onPress={() => {handleLogin()}}
+        onPress={() => {
+          hayInternet 
+          ? handleLogin()
+          : Alert.alert('Sin conexion a intenet')
+          }}
         
     >
         <LinearGradient

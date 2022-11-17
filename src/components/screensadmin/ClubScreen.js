@@ -10,6 +10,9 @@ import {
   ScrollView,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import LinearGradient from 'react-native-linear-gradient';
+import { StyleLoginScreen } from '../../styles/StyleLoginScreen';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 
 const ClubScreen = ({navigation}) => {
@@ -19,10 +22,21 @@ const ClubScreen = ({navigation}) => {
   const [telefono, setTelefono] = useState('');
   const [domicilio, setDomicilio] = useState('');
   const [data, setData] = useState();
-  
 
+  /////////////dropdown pais prov 
+  const [pais, setPais] = useState([{label: 'Argentina', value: '456'}]); //dropdown
+  const [itemPais, setItemPais] = useState('');
+  const [provincia, setProvincia] = useState([
+    {label: 'Tucuman', value: 1},
+    {label: 'Catamarca', value: 2},
+    {label: 'Salta', value: 3},
+  ]); //dropdown
+  const [itemProvincia, setItemProvincia] = useState('');
+  const [openPro, setOpenProv] = useState(false);
+  const [valueProv, setValuePrv] = useState(null);
+  const [openPais, setOpenPais] = useState(false);
+  const [valuePais, setValuePais] = useState(null);
   
-
   useEffect(() => {
     getUniones();
   }, []);
@@ -66,6 +80,8 @@ const ClubScreen = ({navigation}) => {
       cuit: cuit,
       telefono: telefono,
       domicilio: domicilio,
+      pais:itemPais,
+      provincia:itemProvincia,
     };
 
     navigation.navigate('ClubAlta', {enviar, data});
@@ -136,15 +152,53 @@ const ClubScreen = ({navigation}) => {
           />
           
         </View>
+        <View style={{flexDirection:'row', padding:10}}>
+        <View style={{width: '50%'}}>
+            <DropDownPicker
+              placeholder="Pais"
+              open={openPais}
+              value={valuePais}
+              items={pais}
+              setOpen={setOpenPais}
+              setValue={setValuePais}
+              onSelectItem={item => {
+                setItemPais(item.label);
+              }}
+            />
+          </View>
+          <View style={{width: '50%'}}>
+            <DropDownPicker
+              placeholder="Provincia"
+              open={openPro}
+              value={valueProv}
+              items={provincia}
+              setOpen={setOpenProv}
+              setValue={setValuePrv}
+              onSelectItem={item => {
+                setItemProvincia(item.label);
+              }}
+            />
+          </View>
+        </View>
         </SafeAreaView>
 
         {
           (data == undefined)
-          ?<TouchableOpacity onPress={handleMensaje} style={styles.button}>         
+          ?<TouchableOpacity onPress={handleMensaje} style={styles.button}>  
+          <LinearGradient
+            colors={['#0E6251', '#28B463']}
+            style={StyleLoginScreen.signIn}
+            >
             <Text style={styles.textButton}>Espere..</Text>          
+            </LinearGradient>       
           </TouchableOpacity>
           :<TouchableOpacity onPress={handleContinue} style={styles.button}>
-            <Text style={styles.textButton}>Continuar</Text>
+            <LinearGradient
+            colors={['#0E6251', '#28B463']}
+            style={StyleLoginScreen.signIn}
+            >
+            <Text style={styles.textButton}>CONTINUAR</Text>
+            </LinearGradient>
           </TouchableOpacity>
 
         }
@@ -180,8 +234,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'white',
-    fontSize: 42,
-    lineHeight: 84,
+    fontSize: 32,
+    lineHeight: 44,
     fontWeight: 'bold',
     textAlign: 'center',
     backgroundColor: '#000000c0',
@@ -197,18 +251,19 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: '#6A5ACD',
+    // backgroundColor: '#6A5ACD',
     // borderWidth: 4,
     borderRadius: 5,
-    padding: '5%',
-    margin: '5%',
+    // padding: '5%',
+    // margin: '5%',
     // fontSize:50,
   },
   textButton: {
     fontSize: 20,
     color: 'white',
     alignItems: 'center',
-    backgroundColor: '#6A5ACD',
+    // backgroundColor: '#6A5ACD',
     borderRadius: 10,
+    fontWeight: 'bold',
   },
 });

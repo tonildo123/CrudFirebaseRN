@@ -3,20 +3,21 @@ import {
   View, Text, StyleSheet, TextInput, 
   TouchableOpacity, 
   Modal,
-  Alert
+  Alert,ActivityIndicator
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-
 import firestore from '@react-native-firebase/firestore';
-
+import LinearGradient from 'react-native-linear-gradient';
 import {Calendar} from 'react-native-calendars';
 import {useRoute} from '@react-navigation/native';
+import { StyleLoginScreen } from '../../styles/StyleLoginScreen';
 
 const CreatePartido = ({navigation}) => {
 
   const recibo = useRoute();
   
   const clubes = recibo.params.data;
+  const torneo = recibo.params.torneos;
 
 
 
@@ -55,7 +56,7 @@ const CreatePartido = ({navigation}) => {
   const [valueminutospicker, setValueminutospicker] = useState(null);
   
 //////////////////////////
-  const [name, setName] = useState("Arbitro"); 
+  const [name, setName] = useState(""); 
   const [showHora, setShowHora] = useState(false); // timepicker
   const [showfecha, setShowFecha] = useState(false); // timepicker
   const [fecha, setFecha] = useState(); // timepicker
@@ -74,7 +75,8 @@ const CreatePartido = ({navigation}) => {
     {label:'70', value:70},
     // {label:'Dos tiempos 35', value:22},
     // {label:'Tres tiempos 25-25-20', value:33},
-  ]); // dropdown duracion
+  ]); 
+  // dropdown duracion
   const [openDuracion, setOpenDuracion] = useState(false);
   const [valueDuracion, setValueDuracion] = useState(null);
   const [itemDuracion, setItemDuracion] = useState(''); 
@@ -94,8 +96,15 @@ const CreatePartido = ({navigation}) => {
   const [valueSede, setValueSede] = useState(null);
   const [itemSede, setItemSede] = useState(''); 
   //------------------------------------------------------//
+  //------------------------------------------------------//
+  const [torneos, setTorneos] = useState(); // dropdown equipo Torneos
+  const [openTorneos, setOpenTorneos] = useState(false);
+  const [valueTorneos, setValueTorneos] = useState(null);
+  const [itemTorneos, setItemTorneos] = useState(''); 
+  //------------------------------------------------------//
 
   const [isLoading, setIsLoading] = useState(false);
+  const [exito, setExito] = useState(true);
 
   /////////////////
 
@@ -103,12 +112,20 @@ const CreatePartido = ({navigation}) => {
 
     const items = []
     clubes.map(item => {
-      items.push({ label: item.acronimo, value: item.idClub })
+      items.push({ label: item.nombre, value: item })
     });
 
     setVisitante(items)
     setLocal(items)
     setSede(items)
+
+    const itemst = []
+    torneo.map(item => {
+      itemst.push({ label: item.nombre, value: item })
+    });
+
+    setTorneos(itemst)
+    
 
   }, [])
 
@@ -116,23 +133,35 @@ const CreatePartido = ({navigation}) => {
 
 const handleContinue = () =>{
 
+  console.log('item local', JSON.stringify(itemLocal, null, 4))
+  
+
   const cargardatos = {
+
     fecha:`${fecha.day<10 ? '0'+fecha.day: fecha.day}/${fecha.month<10 ? '0'+fecha.month: fecha.month}/${fecha.year} `,
     hora:`${hora}:${minutos}`,
-    local:itemLocal ,
-    visitante:itemVisitante,
+    local:itemLocal.label ,
+    visitante:itemVisitante.label,
     sede:itemSede,
     tiempos:itemTiempos,
     duracion:itemDuracion ,
-    arbitro:name,   
+    arbitro:name,
+    torneo:itemTorneos, 
+    id_local:  itemLocal.value.key, 
+    id_visita:itemVisitante.value.key,
+    datos_local:  itemLocal.value, 
+    datos_visita:itemVisitante.value
   
   }
 
   console.log('datos a cargar del partido', JSON.stringify(cargardatos, null, 4))
-  setIsLoading(true);
+  
 
-
-loadingData();
+  
+    setIsLoading(true);
+    loadingData();
+  
+  
 
 }
 //////////////////
@@ -142,20 +171,32 @@ const loadingData = async()=>{
   try {
     firestore()
     .collection('partidos').add({
-    fecha:`${fecha.day<10 ? '0'+fecha.day: fecha.day}/${fecha.month<10 ? '0'+fecha.month: fecha.month}/${fecha.year} `,
-    hora:`${hora}:${minutos}`,
-    local:itemLocal ,
-    visitante:itemVisitante,
-    sede:itemSede,
-    tiempos:itemTiempos,
-    duracion:itemDuracion ,
-    arbitro:name, 
+      fecha:`${fecha.day<10 ? '0'+fecha.day: fecha.day}/${fecha.month<10 ? '0'+fecha.month: fecha.month}/${fecha.year} `,
+      hora:`${hora}:${minutos}`,
+      local:itemLocal.label ,
+      visitante:itemVisitante.label,
+      sede:itemSede,
+      tiempos:itemTiempos,
+      duracion:itemDuracion ,
+      arbitro:name,
+      torneo:itemTorneos, 
+      goles_local:  0, 
+      goles_visita:0,
+      estado:'pendiente',
+      motivo:'',
+      id_local:  itemLocal.value.key, 
+      id_visita:itemVisitante.value.key,
+      datos_local:  itemLocal.value, 
+      datos_visita:itemVisitante.value
   })
-} catch (error) {
-  console.log('error al subir datos', error)
+} catch (err){
+  console.log('error al subir datos', JSON.stringify(err, null, 3))
   Alert.alert('Error al crear partido ')
   setIsLoading(false);
+  setExito(false)
 }finally{
+  
+  if(exito){
   
   console.log('subido con exito!')
   setIsLoading(false);
@@ -171,7 +212,9 @@ const loadingData = async()=>{
       { text: "OK", onPress: () => navigation.navigate('Home')}
     ]
   );
-  
+  }else {
+    null
+  }
 }
 
 }
@@ -185,14 +228,14 @@ const loadingData = async()=>{
   }}>  
 
     <View style={{flexDirection:'column',}}>
-          <View style={{backgroundColor:'green', width:'100%', height:'20%'}}>
+          <View style={{backgroundColor:'#AAB7B8', width:'100%', height:'20%'}}>
             <Text style={styles.text}>DATOS DEL PARTIDO</Text>
             <View
             style={{flexDirection:'row', padding:10}}
             >
               <TouchableOpacity
                     style={{
-                      backgroundColor:'red',
+                      backgroundColor:'#0E6251',
                       borderRadius:15,
                       margin:5,
                       padding:10, 
@@ -220,7 +263,7 @@ const loadingData = async()=>{
                   </Modal>
                   <TouchableOpacity
                     style={{
-                      backgroundColor:'red',
+                      backgroundColor:'#0E6251',
                       borderRadius:15,
                       margin:5,
                       marginRight:5,
@@ -273,9 +316,9 @@ const loadingData = async()=>{
                   </Modal>
             </View>                 
           </View>
-          <View style={{backgroundColor:'#196F3D', width:'100%', height:'30%'}}>
+          <View style={{backgroundColor:'#AAB7B8', width:'100%', height:'30%'}}>
               <View style={{flexDirection:'row', padding:10}}>
-                <View style={{width:'50%'}}>
+                <View style={{width:'33%'}}>
                     <DropDownPicker
                     placeholder="DURACION"
                     open={openDuracion}
@@ -286,7 +329,7 @@ const loadingData = async()=>{
                     onSelectItem={(item)=>{setItemDuracion(item.label)}}
                     />
                 </View>
-                <View style={{width:'50%'}}>
+                <View style={{width:'34%'}}>
                   <DropDownPicker
                     placeholder="TIEMPOS"
                     open={openTiempos}
@@ -297,9 +340,20 @@ const loadingData = async()=>{
                     onSelectItem={(item)=>{setItemTiempos(item.label)}}
                   />
                 </View>
+                <View style={{width:'33%'}}>
+                  <DropDownPicker
+                    placeholder="Torneo"
+                    open={openTorneos}
+                    value={valueTorneos}
+                    items={torneos}
+                    setOpen={setOpenTorneos}
+                    setValue={setValueTorneos}
+                    onSelectItem={(item)=>{setItemTorneos(item.label)}}
+                  />
+                </View>
               </View>
           </View>
-          <View style={{backgroundColor:'#196F3D', width:'100%', height:'30%'}}>
+          <View style={{backgroundColor:'#AAB7B8', width:'100%', height:'30%'}}>
           <View style={{flexDirection:'row', padding:10}}>
         <View style={{width:'33%'}}>
             <DropDownPicker
@@ -309,7 +363,7 @@ const loadingData = async()=>{
             items={local}
             setOpen={setOpenLocal}
             setValue={setValueLocal}
-            onSelectItem={(item)=>{setItemLocal(item.label)}}
+            onSelectItem={(item)=>{setItemLocal(item)}}
             />
         </View>
         <View style={{width:'34%'}}>
@@ -320,7 +374,7 @@ const loadingData = async()=>{
             items={visitante}
             setOpen={setOpenVisitante}
             setValue={setValueVisitante}
-            onSelectItem={(item)=>{setItemVisitante(item.label)}}
+            onSelectItem={(item)=>{setItemVisitante(item)}}
           />
         </View>
         <View style={{width:'33%'}}>
@@ -336,10 +390,12 @@ const loadingData = async()=>{
         </View>
       </View>      
       </View>
-      <View style={{backgroundColor:'#196F3D', width:'100%', height:'20%'}}
+      <View style={{backgroundColor:'#AAB7B8', width:'100%', height:'20%'}}
         >
           <TextInput
             style={styles.input}
+            placeholder='Nombre del Arbitro'
+            placeholderTextColor='grey'
             onChangeText={setName}
             value={name}
           />
@@ -347,11 +403,21 @@ const loadingData = async()=>{
               onPress={handleContinue}
               style={styles.button}
             > 
-              <Text style={styles.textButton}>CONTINUAR</Text>
+            <LinearGradient
+            colors={['#0E6251', '#28B463']}
+            style={StyleLoginScreen.signIn}
+          >
+            {isLoading
+                ? <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size="large" color='white' />
+                  </View> 
+                : 
+                <Text style={[StyleLoginScreen.textSign, { color: 'black'}]}>Crear Partido</Text>
+                }
+        </LinearGradient>
             </TouchableOpacity>
     </View>
-    </View> 
-    
+    </View>     
    </View>
     
   )
@@ -367,7 +433,7 @@ const styles = StyleSheet.create({
       margin: 12,
       borderWidth: 1,
       padding: 10,
-      color:'white',
+      // color:'white',
       fontSize:15
     },
   slide1: {
@@ -402,10 +468,10 @@ const styles = StyleSheet.create({
   }, 
   button: {
     alignItems: "center",
-    backgroundColor: "red",    
+    // backgroundColor: "red",    
     borderRadius: 10,
-    padding:20,
-    margin:10,
+    // padding:20,
+    // margin:10,
   },
   textButton:{
     fontSize:20,

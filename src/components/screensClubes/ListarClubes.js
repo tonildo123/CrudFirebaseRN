@@ -4,8 +4,10 @@ import firestore from '@react-native-firebase/firestore';
 import {
     View, Text, FlatList, Image, TouchableOpacity,StyleSheet,Alert
  } from 'react-native';
+ import LinearGradient from 'react-native-linear-gradient';
 
  import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { StyleLoginScreen } from '../../styles/StyleLoginScreen';
 
 
 const ListarClubes = ({navigation}) => {
@@ -77,6 +79,7 @@ const handleItem = ({item}) =>{
 
     return(
       <View
+        key={item.key}
         style={{flexDirection:'column', margin:5,alignItems: "center",}}
       >
         <View
@@ -149,7 +152,7 @@ const handleItem = ({item}) =>{
             <View
               style={{
                 width:'10%',
-                backgroundColor:'blue',
+                backgroundColor:'#76448A',
                 justifyContent:'center',
                 alignItems:'center'                
               }}
@@ -174,8 +177,12 @@ const handleItem = ({item}) =>{
 
   return (
     <View style={styles.container}>
-          
+          <LinearGradient
+            colors={['#28B463', '#0E6251']}
+            style={StyleLoginScreen.signIn}
+            >
           <Text style={styles.title}>Lista de Clubes</Text>
+          </LinearGradient>
           <FlatList 
             data={data}
             renderItem={handleItem}
@@ -197,10 +204,10 @@ const styles = StyleSheet.create({
   title:{
     marginTop: 1,
     paddingVertical: 8,
-    borderWidth: 4,
-    borderColor: "#20232a",
+    // borderWidth: 4,
+    // borderColor: "#20232a",
     borderRadius: 6,
-    backgroundColor: "#283747",
+    // backgroundColor: "#283747",
     color: "white",
     textAlign: "center",
     fontSize: 30,

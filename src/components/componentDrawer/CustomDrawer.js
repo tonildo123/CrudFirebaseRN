@@ -25,7 +25,9 @@ const CustomDrawer = (props) => {
     const [NestedDrawerItemCampeonato, setNestedDrawerItemCampeonato] = useState(false);
     const [focus, setFocus] = useState('1');
     const [isLoadingPartido, setIsLoadingPartido] = useState(false);
+    const [isLoadingPartidoList, setIsLoadingPartidoList] = useState(false);
     const [data, setData] = useState();
+    const [torneos, setTorneos] = useState();
     
     const HandleNested = ()=>{
 
@@ -53,9 +55,35 @@ const CustomDrawer = (props) => {
         dispatch(AllActions.UserActions.logoutUSer());
     }
 
-    const llamarClubes = ()=>{
+    const llamarTorneos = () =>{
+        const suscriber = firestore().collection('torneo').
+    onSnapshot(
+      querySnapshot => {
         
-    setIsLoadingPartido(true);
+        const torneos = [];
+        querySnapshot.forEach(
+          documentSnapshot => {
+            torneos.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id 
+            })
+            
+  
+          }
+        )
+        // console.log('torneos', torneos)
+        setTorneos(torneos);       
+          
+      }
+    ) 
+    return () => suscriber()
+    }
+
+    const llamarClubes = (doAction)=>{
+
+     llamarTorneos();   
+        
+    (doAction === 'CREAR') ? setIsLoadingPartido(true) : setIsLoadingPartidoList(true);
     const suscriber = firestore().collection('clubes').
     onSnapshot(
       querySnapshot => {
@@ -72,11 +100,8 @@ const CustomDrawer = (props) => {
           }
         )
         // console.log('clubes', clubes)
-        setData(clubes);
-        
+        setData(clubes);       
           
-        
-  
       }
     ) 
     return () => suscriber()
@@ -84,14 +109,19 @@ const CustomDrawer = (props) => {
         
 
   useEffect(() => {
-    console.log('custom drawer : ', currentUser)
 
-    console.log('clubes .... ', data)
+    // console.log('custom drawer : ', currentUser)
+    // console.log('clubes .... ', data)
 
-    if(data != undefined){
-    setIsLoadingPartido(false);
-    props.navigation.navigate('PartidoAlta', {data})
+    if(data != undefined && torneos != undefined && isLoadingPartido){
+        setIsLoadingPartido(false);
+        props.navigation.navigate('PartidoAlta', {data, torneos})
+    }else if(data != undefined && torneos != undefined && isLoadingPartidoList){
+        setIsLoadingPartidoList(false);
+        props.navigation.navigate('PartidoListar', {data, torneos})
     }
+
+
     
 }, [data])
 
@@ -430,13 +460,13 @@ return (
                                 />
                             )}
                             onPress={
-                                ()=>{llamarClubes()}}
+                                ()=>{llamarClubes('CREAR')}}
                         />
                     }
                     {
                         NestedDrawerItemPartido == true && 
                         <DrawerItem
-                            label='Listar partidos'
+                        label={(isLoadingPartidoList) ? 'Cargando..' :'Listar Partidos'}
                             labelStyle={{color:'#28B463'}}
                             icon={()=>(
                                 <FontAwesome
@@ -446,7 +476,7 @@ return (
                                 />
                             )}
                             onPress={
-                                ()=>{props.navigation.navigate('PartidoListar')}}
+                                ()=>{llamarClubes('LISTAR')}}
                         />
                     }
                     
