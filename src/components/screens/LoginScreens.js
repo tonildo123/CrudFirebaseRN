@@ -157,9 +157,9 @@ unsubscribe();
               }}
               style={StyleLoginScreen.logo}
               resizeMode="stretch"
-         />
-         <Text style={StyleLoginScreen.text_header}>Bienvenido</Text>         
-         <Text style={StyleLoginScreen.text_header}>a Kani Sport</Text>
+        />
+        <Text style={StyleLoginScreen.text_header}>Bienvenido</Text>         
+        <Text style={StyleLoginScreen.text_header}>a Kani Sport</Text>
         </View>
 
         <Animatable.View
